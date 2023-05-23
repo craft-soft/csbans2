@@ -1,0 +1,49 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+<div class="admin-index">
+    <div class="info-boxes">
+        <h5 class="mb-2">{{ infoBoxes.getLabel() }}</h5>
+        <div class="row">
+            {% for infobox in infoBoxes.getBoxes() %}
+                <div class="col-12 col-sm-6 col-md-3">
+                    <div class="info-box">
+                        <span class="info-box-icon text-bg-{{ infobox.getColor()}} shadow-sm"><i class="{{ infobox.getIcon() }}"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">{{ infobox.getLabel() }}</span>
+                            <span class="info-box-number">
+                                {{ infobox.getValue() }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="boxes">
+        <h5 class="mb-2">{{ bansBoxes.getLabel() }}</h5>
+        <div class="row">
+            {% for box in bansBoxes.getBoxes() %}
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="small-box text-bg-{{ box.getColor() }}">
+                    <div class="inner">
+                        <h3>{{ box.value }}</h3>
+                        <p>{{ box.label }}</p>
+                    </div>
+                    {% if box.hasIcon() %}
+                        <i class="small-box-icon {{ box.getIcon() }}"></i>
+                    {% endif %}
+                    <div class="small-box-footer">
+                        {% if box.hasLink() %}
+                            <a href="{{ box.getUrl() }}">{{ t('admin/stats', 'BOX_MORE_INFO_LINK')}} <i class="fa-solid fa-arrow-circle-right"></i></a>
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

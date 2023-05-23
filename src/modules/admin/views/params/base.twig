@@ -1,0 +1,25 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+<div class="admin-create">
+    {{ pjax_begin({
+        formSelector: '#params-form',
+    }) }}
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="card-title">{{ t('admin/params', 'INDEX_TITLE') }}</h3>
+                {{ nav_widget({
+                    options: {class: 'card-header-tabs nav-tabs'},
+                    items: blocks
+                }) }}
+            </div>
+        </div>
+        <div class="card-body">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    {{ pjax_end() }}
+</div>

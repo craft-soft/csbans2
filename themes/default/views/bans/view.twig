@@ -1,0 +1,197 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+<div class="ban-view">
+    <div class="page-header d-flex">
+        <a href="{{ path(['index']) }}" class="page-header__back-link"><i class="fa-solid fa-arrow-left"></i></a>
+        <h3 class="mb-0 ms-2">{{ t('bans', 'VIEW_TITLE', {playerName: ban.player_nick}) }}</h3>
+    </div>
+    <div class="page-body">
+        <table class="table table-bordered detail-table">
+            <tr>
+                <th>{{ ban.getAttributeLabel('player_id') }}</th>
+                <td>{{ ban.player_id | as_steamid | raw }}</td>
+            </tr>
+            <tr>
+                <th>{{ ban.getAttributeLabel('player_nick') }}</th>
+                <td>{{ ban.player_nick }}</td>
+            </tr>
+            <tr>
+                <th>{{ ban.getAttributeLabel('admin_nick') }}</th>
+                <td>{{ ban.admin_nick }}</td>
+            </tr>
+            <tr>
+                <th>{{ ban.getAttributeLabel('ban_reason') }}</th>
+                <td>{{ ban.ban_reason }}</td>
+            </tr>
+            <tr>
+                <th>{{ ban.getAttributeLabel('ban_created') }}</th>
+                <td>{{ ban.ban_created | as_datetime }}</td>
+            </tr>
+            <tr>
+                <th>{{ ban.getAttributeLabel('ban_length') }}</th>
+                <td>{{ ban.ban_length | as_ban_length }}</td>
+            </tr>
+            <tr>
+                <th>{{ ban.getAttributeLabel('expired') }}</th>
+                <td>{{ ban.getViewExpiredDate() }}</td>
+            </tr>
+            <tr>
+                <th>{{ ban.getAttributeLabel('server_name') }}</th>
+                <td>{{ ban.server_name }}</td>
+            </tr>
+            {% if showKicks %}
+            <tr>
+                <th>{{ ban.getAttributeLabel('ban_kicks') }}</th>
+                <td>{{ ban.ban_kicks }}</td>
+            </tr>
+            {% endif %}
+        </table>
+        <div class="ban-view__history">
+            <h3 class="ban-view__title">{{ t('bans', 'VIEW_HISTORY_TITLE') }} ({{ totalHistory }}) <i class="fa-regular fa-calendar-days"></i></h3>
+            {% if hasHistory %}
+            {{ pjax_begin({id: 'banHistoryContainer'}) }}
+            <div class="table-responsive">
+                <table class="table table-bordered bans-table">
+                    <thead>
+                        <tr>
+                            <th>{{ historySort.link('player_nick') | raw }}</th>
+                            <th>{{ historySort.link('player_id') | raw }}</th>
+                            <th>{{ historySort.link('ban_created') | raw }}</th>
+                            <th>{{ historySort.link('ban_reason') | raw }}</th>
+                            <th>{{ historySort.link('ban_length') | raw }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for historyBan in historyBans %}
+                        <tr>
+                            <td>{{ ban.player_nick }}</td>
+                            <td>{{ ban.player_id | as_steamid | raw }}</td>
+                            <td>{{ ban.ban_created | as_datetime }}</td>
+                            <td>{{ ban.ban_reason }}</td>
+                            <td>{{ ban.ban_length | as_ban_length }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ link_pager_widget({
+                    pagination: historyPagination,
+                    listOptions: {
+                        class: 'pagination'
+                    },
+                    nextPageLabel: '<span aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span>',
+                    prevPageLabel: '<span aria-hidden="true"><i class="fa-solid fa-arrow-left"></i></span>',
+                }) }}
+            </div>
+            {{ pjax_end() }}
+            {% endif %}
+        </div>
+        <div class="ban-view__comments col-md-12">
+            {{ pjax_begin({
+                id: 'banCommentsContainer',
+                formSelector: false,
+                linkSelector: false,
+            }) }}
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <h3 class="ban-view__title">
+                    {{ t('bans', 'VIEW_COMMENTS_TITLE') }} ({{ totalComments }})
+                    <i class="fa-regular fa-comments"></i>
+                </h3>
+                {% if canComment %}
+                {{ this.render('_addCommentModal.twig', {ban: ban, model: newComment}) | raw }}
+                {% endif %}
+            </div>
+            {% if hasComments %}
+            <div class="table-responsive">
+                <table class="table table-bordered bans-table">
+                    <thead>
+                    <tr>
+                        <th>{{ commentsSort.link('date') | raw }}</th>
+                        <th>{{ commentsSort.link('name') | raw }}</th>
+                        <th>{{ commentsSort.link('email') | raw }}</th>
+                        <th>{{ commentsSort.link('comment') | raw }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for comment in comments %}
+                        <tr>
+                            <td>{{ comment.date | as_datetime }}</td>
+                            <td>{{ comment.name }}</td>
+                            <td>{{ comment.email | as_email | raw }}</td>
+                            <td>{{ comment.comment }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ link_pager_widget({
+                    pagination: commentsPagination,
+                    listOptions: {
+                        class: 'pagination'
+                    },
+                    nextPageLabel: '<span aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span>',
+                    prevPageLabel: '<span aria-hidden="true"><i class="fa-solid fa-arrow-left"></i></span>',
+                }) }}
+            </div>
+            {% endif %}
+            {{ pjax_end() }}
+        </div>
+        <div class="ban-view__files">
+            {{ pjax_begin({
+                id: 'banFilesContainer',
+                formSelector: false,
+                linkSelector: false,
+            }) }}
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <h3 class="ban-view__title">
+                    {{ t('bans', 'VIEW_FILES_TITLE') }} ({{ totalFiles }})
+                    <i class="fa-regular fa-file-lines"></i>
+                </h3>
+                {% if canAddFile %}
+                    {{ this.render('_addFileModal.twig', {ban: ban, model: newFile}) | raw }}
+                {% endif %}
+            </div>
+            {% if hasFiles %}
+            <div class="table-responsive">
+                <table class="table table-bordered bans-table">
+                    <thead>
+                    <tr>
+                        <th>{{ filesSort.link('upload_time') | raw }}</th>
+                        <th>{{ filesSort.link('name') | raw }}</th>
+                        <th>{{ filesSort.link('demo_real') | raw }}</th>
+                        <th>{{ filesSort.link('file_size') | raw }}</th>
+                        <th>{{ filesSort.link('down_count') | raw }}</th>
+                        <th>{{ filesSort.link('comment') | raw }}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for file in files %}
+                        <tr>
+                            <td>{{ file.upload_time | as_datetime }}</td>
+                            <td>{{ file.name }}</td>
+                            <td>{{ file.demo_file }}</td>
+                            <td>{{ file.file_size | as_short_size }}</td>
+                            <td>{{ file.down_count }}</td>
+                            <td>{{ file.comment }}</td>
+                            <td>
+                                <a data-download-file href="{{ path(['file'], {id: file.id}) }}" data-pjax="0">{{ t('bans', 'VIEW_FILE_DOWNLOAD') }}</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ link_pager_widget({
+                    pagination: filesPagination,
+                    listOptions: {
+                        class: 'pagination'
+                    },
+                    nextPageLabel: '<span aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span>',
+                    prevPageLabel: '<span aria-hidden="true"><i class="fa-solid fa-arrow-left"></i></span>',
+                }) }}
+            </div>
+            {% endif %}
+            {{ pjax_end() }}
+        </div>
+    </div>
+</div>

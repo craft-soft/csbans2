@@ -1,0 +1,42 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/grid/GridView') }}
+<div class="bans-index">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('admin/comments', 'INDEX_TITLE') }}</h3>
+        </div>
+        <div class="card-body">
+            {{ pjax_begin() }}
+            {{ grid_view_widget({
+                dataProvider: dataProvider,
+                filterModel: searchModel,
+                columns: [
+                    {
+                        attribute: 'date',
+                        class: '\\app\\modules\\admin\\components\\grid\\DateColumn',
+                    },
+                    'name',
+                    {
+                        attribute: 'addr',
+                        format: 'ipModal',
+                    },
+                    {
+                        class: 'app\\modules\\admin\\components\\grid\\ContentBanColumn',
+                        attribute: 'bid',
+                    },
+                    'comment',
+                    {
+                        class: "\\app\\modules\\admin\\components\\grid\\ContentActionColumn"
+                    }
+                ]
+            }) }}
+            {{ pjax_end() }}
+        </div>
+        <div class="card-footer">
+            {{ ipGeoCred | raw }}
+        </div>
+    </div>
+</div>

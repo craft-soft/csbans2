@@ -1,0 +1,36 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+<div class="bans-view__add-comment-modal-container" data-ban-add-content="comment" data-pjax-container="#banFilesContainer">
+    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#addFilModal">
+        {{ t('bans', 'VIEW_ADD_FILE_BUTTON') }}
+    </button>
+    <div class="modal fade" id="addFilModal" tabindex="-1" aria-labelledby="banAddFileModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                {% set form = active_form_begin({
+                    id: 'new-file-form',
+                    type: 'horizontal',
+                    enableAjaxValidation: false,
+                    options: {enctype: 'multipart/form-data'}
+                }) %}
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="banAddFileModalLabel">{{ t('bans', 'VIEW_ADD_FILE_MODAL_TITLE', {playerName: ban.player_nick}) }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form.field(model, 'email').input('email') | raw }}
+                        {{ form.field(model, 'name') | raw }}
+                        {{ form.field(model, 'file', {enableAjaxValidation: false}).fileInput() | raw }}
+                        {{ form.field(model, 'comment').textarea() | raw }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-secondary">{{ t('bans', 'VIEW_SAVE_FILE_BUTTON') }}</button>
+                    </div>
+                {{ active_form_end() }}
+            </div>
+        </div>
+    </div>
+</div>

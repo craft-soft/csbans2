@@ -1,0 +1,63 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ register_js_begin() }}
+<script>
+    $('#rcon-form').on('submit', function(e) {
+        e.preventDefault();
+        const form = $(this);
+        const commandInput = form.find('input[type="text"]');
+        const command = commandInput.val();
+        if (!command) {
+            return;
+        }
+        const resultElement = $('#result');
+        commandInput.attr('disabled', true);
+        $.ajax({
+          url: '',
+          type: 'POST',
+          data: {
+            command: command
+          },
+          showLoading: true
+        }).then(function(response) {
+            commandInput.removeAttr('disabled');
+            commandInput.val('');
+            if (response) {
+                resultElement.text(response);
+            }
+        });
+    })
+</script>
+{{ register_js_end() }}
+<div class="server-rcon">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h3 class="card-title">{{ t('admin/servers', 'RCON_TITLE', {name: model.hostname, address: model.address}) }}</h3>
+                <div class="card-tools ms-auto">
+                    <a href="{{ path(['view'], {id: model.id}) }}" class="btn btn-tool text-success">
+                        {{ t('admin/servers', 'RCON_LINK_BACK') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <form method="post" action="" id="rcon-form">
+                <div class="input-group mb-3">
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="{{ t('admin/servers', 'RCON_COMMAND_INPUT_PLACEHOLDER') }}"
+                      aria-label="{{ t('admin/servers', 'RCON_COMMAND_INPUT_PLACEHOLDER') }}"
+                      aria-describedby="sendCommand">
+                    <button class="btn btn-outline-secondary" type="submit" id="sendCommand">{{ t('admin/servers', 'RCON_SEND_BUTTON') }}</button>
+                </div>
+            </form>
+            <div style="height: calc(100vh - 310px); overflow: auto">
+                <pre readonly id="result"></pre>
+            </div>
+        </div>
+    </div>
+</div>

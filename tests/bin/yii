@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+const YII_DEBUG = true;
+const YII_ENV = 'test';
+
+require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/yiisoft/yii2/Yii.php';
+
+$config = yii\helpers\ArrayHelper::merge(
+    require __DIR__ . '/../../src/config/main.php',
+    require __DIR__ . '/../../src/config/console.php',
+    require __DIR__ . '/../../src/config/test.php',
+);
+unset(
+    $config['components']['request'], $config['components']['user'],
+    $config['components']['urlManager'], $config['components']['assetManager']
+);
+exit((new yii\console\Application($config))->run());

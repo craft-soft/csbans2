@@ -1,0 +1,97 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+<div class="page">
+    <div class="page-header">
+        <h3>{{ t('servers', 'INDEX_TITLE') }}</h3>
+    </div>
+    <div class="page-body">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="table-responsive">
+                    <table class="table table-bordered bans-table">
+                        <colgroup>
+                            <col style="width: 54px">
+                            <col style="width: 54px">
+                            <col style="width: 54px">
+                            <col>
+                            <col>
+                            <col>
+                            <col style="width: 40px">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_MOD') }}</th>
+                            <th>{{ t('servers', 'ONLINE_DATA_OS') }}</th>
+                            <th>{{ t('servers', 'ONLINE_DATA_VAC') }}</th>
+                            <th>{{ t('servers', 'ONLINE_DATA_HOSTNAME') }}</th>
+                            <th>{{ t('servers', 'ONLINE_DATA_MAP') }}</th>
+                            <th>{{ t('servers', 'ONLINE_DATA_PLAYERS_COUNT') }}</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for server in servers %}
+                            <tr
+                              data-server-info
+                              data-offline-class="bg-dark"
+                              data-offline-message='{"message": "{{ t('servers', 'ONLINE_DATA_OFFLINE_MESSAGE') }}", "field": "map"}'
+                              data-server-ip="{{ server.getIp() }}"
+                              data-server-port="{{ server.getPort() }}"
+                              data-server-type="{{ server.gametype }}">
+                                <td data-server-mod-icon class="text-center"></td>
+                                <td data-server-os-icon class="text-center"></td>
+                                <td data-server-vac-icon class="text-center"></td>
+                                <td data-server-hostname>{{ server.hostname }}</td>
+                                <td data-server-map></td>
+                                <td data-server-online-payers></td>
+                                <td class="text-center">
+                                    <a
+                                      href="{{ path(['view'], {id: server.id}) }}"
+                                      class="table-action"><i class="fa-regular fa-circle-question"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="2">{{ t('servers', 'INDEX_STATS_TITLE') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ t('servers', 'INDEX_STATS_TOTAL_BANS') }}</td>
+                            <td>{{ stats.totalBans }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ t('servers', 'INDEX_STATS_ACTIVE_BANS') }}</td>
+                            <td>{{ stats.activeBans }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ t('servers', 'INDEX_STATS_PERMANENT_BANS') }}</td>
+                            <td>{{ stats.permanentBans }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ t('servers', 'INDEX_STATS_TEMPORARY_BANS') }}</td>
+                            <td>{{ stats.temporaryBans }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ t('servers', 'INDEX_STATS_ADMINS') }}</td>
+                            <td>{{ stats.amxAdmins }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ t('servers', 'INDEX_STATS_SERVERS') }}</td>
+                            <td>{{ stats.servers }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

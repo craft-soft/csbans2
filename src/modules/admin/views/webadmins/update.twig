@@ -1,0 +1,16 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+<div class="webadmin-create">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('admin/webadmins', 'UPDATE_TITLE', {username: model.username}) }}</h3>
+        </div>
+        <div class="card-body">
+            {{ this.render('_form.twig', {
+                model: model
+            }) | raw }}
+        </div>
+    </div>
+</div>

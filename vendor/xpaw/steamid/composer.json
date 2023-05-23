@@ -1,0 +1,29 @@
+{
+	"name": "xpaw/steamid",
+	"description": "SteamID conversion library",
+	"minimum-stability": "stable",
+	"license": "MIT",
+	"authors":
+	[
+		{
+			"name": "Pavel Djundik",
+			"email": "steamid.php@xpaw.me"
+		}
+	],
+	"require":
+	{
+		"php": ">=7.3",
+		"ext-gmp": "*"
+	},
+	"require-dev":
+	{
+		"phpunit/phpunit": "^8.3"
+	},
+	"autoload":
+	{
+		"files": 
+		[
+			"SteamID.php"
+		]
+	}
+}

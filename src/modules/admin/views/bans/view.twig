@@ -1,0 +1,163 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/widgets/DetailView') }}
+{{ use('yii/grid/GridView') }}
+{{ void(this.beginBlock('contentHeader')) }}
+<div class="d-flex mb-3">
+    <h3>{{ t('admin/bans', 'VIEW_TITLE', {playerName: model.player_nick}) }}</h3>
+    <div class="ms-auto">
+        {% if canUnban %}
+            <a
+              href="{{ path('unban', {id: model.bid}) }}"
+              data-method="post"
+              data-confirm="{{ t('admin/bans', 'UNBAN_LINK_CONFIRM') }}"
+              class="btn btn-info">{{ t('admin/bans', 'VIEW_UNBAN_LINK') }}</a>
+        {% endif %}
+        {% if canUpdate %}
+            <a href="{{ path('update', {id: model.bid}) }}" class="btn btn-primary">{{ t('admin/bans', 'VIEW_UPDATE_LINK') }}</a>
+        {% endif %}
+        {% if canDelete %}
+            <a
+              href="{{ path('delete', {id: model.bid}) }}"
+              data-confirm="{{ t('admin/bans', 'VIEW_DELETE_LINK_CONFIRM') }}"
+              data-method="post"
+              class="btn btn-danger">{{ t('admin/bans', 'VIEW_DELETE_LINK') }}</a>
+        {% endif %}
+    </div>
+</div>
+{{ void(this.endBlock()) }}
+<div class="webadmin-view">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('admin/bans', 'VIEW_GENERAL_CARD_TITLE') }}</h3>
+        </div>
+        <div class="card-body">
+            {{ detail_view_widget({
+                model: model,
+                attributes: [
+                    'bid',
+                    {
+                        attribute: 'player_ip',
+                        format: 'ipModal',
+                        visible: canViewIp
+                    },
+                    'player_id:steamid',
+                    'player_nick',
+                    {
+                        attribute: 'admin_ip',
+                        format: 'ipModal',
+                        visible: canViewIp
+                    },
+                    'admin_id:steamid',
+                    'admin_nick',
+                    'ban_type:banType',
+                    'ban_reason',
+                    'ban_created:datetime',
+                    'ban_length:banLength',
+                    'server_ip:serverAddress',
+                    'server_name',
+                    'ban_kicks',
+                    {
+                        attribute: 'expired',
+                        value: model.getViewExpiredDate()
+                    },
+                ],
+            }) }}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('admin/bans', 'VIEW_PREVIOUS_BANS_CARD_TITLE') }}</h3>
+        </div>
+        <div class="card-body">
+            {{ pjax_begin({
+                id: 'bans-view-prevoius'
+            }) }}
+                {{ grid_view_widget({
+                    dataProvider: historyDataProvider,
+                    columns: [
+                        'player_nick',
+                        'player_id:steamid',
+                        {
+                            attribute: 'player_ip',
+                            visible: canViewIp
+                        },
+                        'ban_created:datetime',
+                        'ban_reason',
+                        'ban_length:banLength',
+                    ]
+                }) }}
+            {{ pjax_end() }}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('admin/bans', 'VIEW_COMMENTS_CARD_TITLE') }}</h3>
+        </div>
+        <div class="card-body">
+            {{ pjax_begin({
+                id: 'bans-view-comments'
+            }) }}
+                {{ grid_view_widget({
+                    dataProvider: commentsDataProvider,
+                    columns: [
+                        'date:datetime',
+                        'name',
+                        'email',
+                        {
+                            attribute: 'addr',
+                            format: 'ipModal',
+                            visible: canViewIp
+                        },
+                        'comment',
+                        {
+                            class: "\\app\\modules\\admin\\components\\grid\\ActionColumn",
+                            visibleButtons: {view: false},
+                            controller: 'comments',
+                            options: {
+                                style: 'width: 100px'
+                            }
+                        }
+                    ]
+                }) }}
+            {{ pjax_end() }}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('admin/bans', 'VIEW_FILES_CARD_TITLE') }}</h3>
+        </div>
+        <div class="card-body">
+            {{ pjax_begin({
+                id: 'bans-view-files'
+            }) }}
+                {{ grid_view_widget({
+                    dataProvider: filesDataProvider,
+                    columns: [
+                        'upload_time:datetime',
+                        'demo_real',
+                        'file_size:shortSize',
+                        'comment',
+                        {
+                            attribute: 'addr',
+                            format: 'ipModal',
+                            visible: canViewIp
+                        },
+                        'name',
+                        'down_count',
+                        {
+                            class: "\\app\\modules\\admin\\components\\grid\\ActionColumn",
+                            visibleButtons: {view: false},
+                            controller: 'files',
+                            options: {
+                                style: 'width: 100px'
+                            }
+                        }
+                    ]
+                }) }}
+            {{ pjax_end() }}
+        </div>
+    </div>
+</div>

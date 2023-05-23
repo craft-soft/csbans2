@@ -1,0 +1,76 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/grid/GridView') }}
+<div class="bans-index">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h3 class="card-title">{{ t('admin/bans', 'INDEX_TITLE') }}</h3>
+                <div class="card-tools ms-auto">
+                    <a href="{{ path(['create']) }}" class="btn btn-tool text-success">
+                        {{ t('admin/bans', 'INDEX_LINK_ADD') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {{ pjax_begin() }}
+            {{ grid_view_widget({
+                dataProvider: dataProvider,
+                filterModel: searchModel,
+                rowOptions: rowOptions,
+                options: {
+                    'data-banlist': true
+                },
+                columns: [
+                    {
+                        attribute: 'bid',
+                        options: {
+                            style: 'width: 60px'
+                        },
+                    },
+                    {
+                        attribute: 'ban_created',
+                        class: '\\app\\modules\\admin\\components\\grid\\DateColumn',
+                    },
+                    {
+                        attribute: 'player_nick',
+                        class: '\\app\\components\\grid\\BanPlayerNickColumn',
+                    },
+                    'player_id:steamid',
+                    {
+                        attribute: 'player_ip',
+                        format: 'ipModal',
+                        visible: canViewIp
+                    },
+                    'admin_nick',
+                    {
+                        attribute: 'ban_type',
+                        format: 'banType',
+                        filter: searchModel.types()
+                    },
+                    {
+                        attribute: 'server_name',
+                        value: 'serverName',
+                        filter: searchModel.serversForFilter()
+                    },
+                    {
+                        attribute: 'active',
+                        format: 'boolean'
+                    },
+                    {
+                        attribute: 'ban_length',
+                        format: 'banLength',
+                        filter: false
+                    },
+                    {
+                        class: "\\app\\modules\\admin\\components\\grid\\BanActionsColumn",
+                    }
+                ]
+            }) }}
+            {{ pjax_end() }}
+        </div>
+    </div>
+</div>

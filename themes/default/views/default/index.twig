@@ -1,0 +1,64 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+<div class="page">
+    <div class="page-body">
+        {{ content | raw }}
+        <div class="row">
+            <div class="col-lg-6">
+                <h3>{{ t('index', 'LAST_BANS_TITLE') }}</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered bans-table">
+                        <thead>
+                        <tr>
+                            <th>{{ t('bans', 'ATTRIBUTE_PLAYER_NICK') }}</th>
+                            <th>{{ t('bans', 'ATTRIBUTE_CREATED') }}</th>
+                            <th>{{ t('bans', 'ATTRIBUTE_LENGTH') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for ban in bans %}
+                            <tr{% if ban.isUnbanned() %} class="unbanned"{% endif %}>
+                                <td>{{ ban.player_nick }}</td>
+                                <td>{{ ban.ban_created | as_datetime }}</td>
+                                <td>{{ ban.ban_length | as_ban_length }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h3>{{ t('index', 'SERVERS_LIST_TITLE') }}</h3>
+                <div class="table-responsive">
+                    <table class="table table-bordered bans-table">
+                        <thead>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_HOSTNAME') }}</th>
+                            <th>{{ t('servers', 'ONLINE_DATA_MAP') }}</th>
+                            <th>{{ t('servers', 'ONLINE_DATA_PLAYERS_COUNT') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for server in servers %}
+                            <tr
+                              data-click-url="{{ path(['/servers/view'], {id: server.id}) }}"
+                              data-server-info
+                              data-offline-class="bg-dark"
+                              data-offline-message='{"message": "{{ t('servers', 'ONLINE_DATA_OFFLINE_MESSAGE') }}", "field": "hostname"}'
+                              data-server-ip="{{ server.getIp() }}"
+                              data-server-port="{{ server.getPort() }}"
+                              data-server-type="{{ server.gametype }}">
+                                <td data-server-hostname>{{ server.hostname }}</td>
+                                <td data-server-map></td>
+                                <td data-server-online-payers></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

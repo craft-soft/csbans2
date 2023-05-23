@@ -1,0 +1,106 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('lo/modules/noty/Wrapper') }}
+{{ use('app/widgets/LayoutLoginForm') }}
+{{ register_asset_bundle('app/assets/AppAsset') }}
+{{ void(this.beginPage()) }}
+<!DOCTYPE html>
+<html lang="{{ app.language }}" class="h-100">
+<head>
+    <meta charset="{{ app.charset }}">
+    <title>
+        {{ app.name }}{% if this.title %} - {{ this.title }}{% endif %}
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{ void(this.registerCsrfMetaTags()) }}
+    {{ void(this.head()) }}
+</head>
+<body class="d-flex flex-column h-100">
+{{ void(this.beginBody()) }}
+    <main id="main" class="flex-shrink-0" role="main">
+        <div class="container">
+            <div class="d-md-none main-nav-md">
+                <button
+                  type="button"
+                  class="navbar-toggler"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#w1-collapse"
+                  aria-controls="w1-collapse"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars fa-2x"></i>
+                </button>
+                <div id="w1-collapse" class="collapse navbar-collapse nav-md">
+                    {{ nav_widget({
+                        options: {
+                            class: 'navbar-nav justify-content-end',
+                        },
+                        items: app.appParams.mainMenu()
+                    }) }}
+                </div>
+            </div>
+            <div class="text-end">
+                <div class="dropdown">
+                    {% if app.user.isGuest %}
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                            {{ t('mainMenu', 'LOGIN') }}
+                        </button>
+                        <div class="dropdown-menu">
+                            {{ layout_login_form_widget() | raw }}
+                        </div>
+                    {% else %}
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ app.user.name }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{{ path(['/admin/default/index']) }}">{{ t('mainMenu', 'ADMINCENTER') }}</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" data-method="post" href="{{ path(['auth/logout']) }}">{{ t('mainMenu', 'LOGOUT') }}</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="main-site-name">
+                {{ app.appParams.view_main_banner | as_html | raw }}
+            </div>
+            <div class="d-none d-md-block">
+                {{ nav_widget({
+                    options: {
+                        class: 'main-nav',
+                    },
+                    items: app.appParams.mainMenu()
+                }) }}
+            </div>
+            {{ content | raw }}
+        </div>
+    </main>
+    <footer class="mt-auto py-3 bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">{{ app.appParams.view_footer_left | as_html | raw }}</div>
+                <div class="col-md-6 text-center text-md-end">{{ app.appParams.view_footer_right | as_html | raw }}</div>
+            </div>
+        </div>
+    </footer>
+    {{ wrapper_widget({
+        layerClass: '\\lo\\modules\\noty\\layers\\Toastr',
+        layerOptions: {showTitle: false},
+        options: {
+            timeOut: 5000,
+            extendedTimeOut: 60000,
+            progressBar: true
+        },
+    }) }}
+</body>
+{{ void(this.endBody()) }}
+</html>
+{{ void(this.endPage()) }}

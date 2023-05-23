@@ -1,0 +1,13 @@
+#!/usr/bin/env php
+<?php
+
+const YII_DEBUG = true;
+const YII_ENV = 'dev';
+
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/vendor/yiisoft/yii2/Yii.php';
+
+exit((new yii\console\Application(\yii\helpers\ArrayHelper::merge(
+    require __DIR__ . '/src/config/main.php',
+    require __DIR__ . '/src/config/console.php',
+)))->run());

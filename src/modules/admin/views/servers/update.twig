@@ -1,0 +1,29 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+<div class="servers-update">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('admin/servers', 'UPDATE_TITLE', {name: model.hostname, address: model.address}) }}</h3>
+        </div>
+        <div class="card-body">
+            {% set form = active_form_begin({
+                id: 'servers-form',
+                type: 'horizontal',
+            }) %}
+            {{ form.field(model, 'rcon_field').passwordInput() | raw }}
+            {{ form.field(model, 'amxban_motd') | raw }}
+            {{ form.field(model, 'motd_delay').input('number', {min: 0, step: 1}) | raw }}
+            {{ form.field(model, 'reasons').dropdownList(model.allReasonsSets) | raw }}
+            {{ form.field(model, 'timezone_fixx').dropdownList(model.allTimezones) | raw }}
+            <div class="col-md-10 offset-md-2">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">{{ t('admin/servers', 'FORM_SAVE_BUTTON') }}</button>
+                </div>
+            </div>
+            {{ active_form_end() }}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+{{ register_js_begin() }}
+<script>
+
+</script>
+{{ register_js_end() }}
+<div class="admin-index">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-outline card-{{ variables.hasError ? 'danger' : 'primary' }}">
+                <div class="card-header">
+                    <h3 class="card-title">{{ t('admin/system', 'SYSTEM_INFO_VARIABLES_TITLE') }}</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <colgroup>
+                            <col style="width: 250px">
+                        </colgroup>
+                        <tr>
+                            <th>{{ t('app', 'SYSTEM_SITE_VERSION') }}</th>
+                            <td>
+                                {{ siteVersion }}
+                                <span id="appVersion" class="ms-1">
+                                    <i class="fa-solid fa-spinner fa-pulse"></i>
+                                </span>
+                            </td>
+                        </tr>
+                        {% for variable in variables.getItems() %}
+                        <tr>
+                            <th>{{ variable.getLabel() }}</th>
+                            <td>
+                                {% if variable.isHasError() %}
+                                    <span class="text-danger">
+                                        <strong>{{ variable.getValue() }}</strong>
+                                        {% if variable.getMessage() %}
+                                            {{ variable.getMessage() }}
+                                        {% endif %}
+                                    </span>
+                                {% else %}
+                                    {{ variable.getValue() }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-outline card-{{ modules.hasError ? 'danger' : 'primary' }}">
+                <div class="card-header">
+                    <h3 class="card-title">{{ t('admin/system', 'SYSTEM_INFO_MODULES_TITLE') }}</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        {% for module in modules.getItems() %}
+                            <tr>
+                                <th>{{ module.getLabel() }}</th>
+                                <td>
+                                    {% if module.isHasError() %}
+                                        <span class="text-danger">
+                                        <strong>{{ module.getValue() }}</strong>
+                                    </span>
+                                    {% else %}
+                                        {{ module.getValue() }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-outline card-success" id="admin-system-actions">
+                <div class="card-header">
+                    <h3 class="card-title">{{ t('admin/system', 'SYSTEM_INFO_ACTIONS') }}</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <button type="button" class="btn btn-info w-100" data-system-action="clearCache">
+                                    {{ t('admin/system', 'ACTIONS_CLEAR_CACHE') }}
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button type="button" class="btn btn-success w-100" data-system-action="optimizeDb">
+                                    {{ t('admin/system', 'ACTION_OPTIMIZE_DB') }}
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button
+                                  type="button"
+                                  class="btn btn-danger w-100"
+                                  data-confirm-text="{{ t('admin/system', 'ACTION_CLEAR_BANLIST_CONFIRM') }}"
+                                  data-system-action="clearBanlist">
+                                    {{ t('admin/system', 'ACTION_CLEAR_BANLIST') }}
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

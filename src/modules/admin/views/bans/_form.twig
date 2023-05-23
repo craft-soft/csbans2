@@ -1,0 +1,44 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+{{ register_js_begin() }}
+<script>
+	$(document).on('change', '#ban-ban_reason', function(event) {
+		const ownReasonBlock = $('.field-ban-own_ban_reason');
+		if (event.target.value === 'own') {
+			ownReasonBlock.show();
+		} else {
+			ownReasonBlock.hide();
+		}
+	});
+</script>
+{{ register_js_end() }}
+<div class="bans-form">
+    {% set form = active_form_begin({
+        id: 'bans-form',
+        type: 'horizontal',
+    }) %}
+    {{ form.field(model, 'player_nick') | raw }}
+    {{ form.field(model, 'player_id').widget('yii\\widgets\\MaskedInput', {
+        mask: 'AAAAA_9:9:9{5,15}',
+    }) | raw }}
+    {{ form.field(model, 'player_ip').widget('yii\\widgets\\MaskedInput', {
+        mask: '9{1,3}.9{1,3}.9{1,3}.9{1,3}'
+    }) | raw }}
+    {{ form.field(model, 'ban_type').dropdownList(model.types()) | raw }}
+    {{ form.field(model, 'ban_reason').dropdownList(model.reasonsList()) | raw }}
+    {{ form.field(model, 'own_ban_reason', {
+        options: {
+            style: model.ownBanReasonVisible ? '' : 'display: none'
+        },
+    }) | raw }}
+    {{ form.field(model, 'ban_length').dropdownList(model.banTimes()) | raw }}
+    <div class="col-md-10 offset-md-2">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">{{ t('admin/webadmins', 'FORM_SAVE_BUTTON') }}</button>
+        </div>
+    </div>
+    {{ active_form_end() }}
+</div>

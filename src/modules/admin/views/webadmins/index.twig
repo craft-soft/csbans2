@@ -1,0 +1,58 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/grid/GridView') }}
+<div class="webadmin-index">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h3 class="card-title">{{ t('admin/webadmins', 'INDEX_TITLE') }}</h3>
+                <div class="card-tools ms-auto">
+                    <a href="{{ path(['create']) }}" class="btn btn-tool text-success">
+                        {{ t('admin/webadmins', 'INDEX_LINK_ADD') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {{ pjax_begin() }}
+            {{ grid_view_widget({
+                dataProvider: dataProvider,
+                filterModel: searchModel,
+                columns: [
+                    {
+                        attribute: 'id',
+                        options: {
+                            style: 'width: 60px'
+                        },
+                    },
+                    'username',
+                    {
+                        attribute: 'last_action',
+                        class: '\\app\\modules\\admin\\components\\grid\\DateColumn'
+                    },
+                    {
+                        attribute: 'try',
+                        options: {
+                            style: 'width: 160px'
+                        },
+                    },
+                    {
+                        class: "\\app\\modules\\admin\\components\\grid\\ActionColumn",
+                        template: '{profile}{view}{update}{delete}',
+                        buttons: {
+                            profile: profileButton
+                        },
+                        visibleButtons: {
+                            profile: canViewProfile,
+                            update: canUpdate,
+                            delete: canUpdate,
+                        }
+                    }
+                ]
+            }) }}
+            {{ pjax_end() }}
+        </div>
+    </div>
+</div>

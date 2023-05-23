@@ -1,0 +1,38 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/grid/GridView') }}
+<div class="servers-index">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('admin/servers', 'INDEX_TITLE') }}</h3>
+        </div>
+        <div class="card-body">
+            {{ pjax_begin() }}
+            {{ grid_view_widget({
+                dataProvider: dataProvider,
+                columns: [
+                    {
+                        attribute: 'id',
+                        options: {
+                            style: 'width: 60px'
+                        },
+                    },
+                    'address:serverAddress',
+                    'hostname',
+                    'amxban_version',
+                    'timestamp:datetime',
+                    {
+                        class: "\\app\\modules\\admin\\components\\grid\\ActionColumn",
+                        visibleButtons: {
+                            delete: canUpdate,
+                            update: canUpdate,
+                        }
+                    }
+                ]
+            }) }}
+            {{ pjax_end() }}
+        </div>
+    </div>
+</div>

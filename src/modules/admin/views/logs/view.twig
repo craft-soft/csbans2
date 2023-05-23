@@ -1,0 +1,61 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/widgets/DetailView') }}
+<div class="amxadmins-view">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h3 class="card-title">{{ t('admin/logs', 'VIEW_TITLE', {datetime: app.formatter.asDatetime(model.timestamp)}) }}</h3>
+                <div class="card-tools ms-auto">
+                    <a href="{{ path(['index']) }}" class="btn btn-tool text-primary">{{ t('admin/logs', 'VIEW_INDEX_LINK') }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {{ detail_view_widget({
+                model: model,
+                attributes: [
+                    'timestamp:datetime',
+                    'ip',
+                    'username',
+                    {
+                        attribute: 'actionView',
+                        value: model.actionView
+                    },
+                    {
+                        attribute: 'remarks',
+                        value: model.getData(),
+                        visible: model.isRemark()
+                    },
+                ],
+            }) }}
+        </div>
+    </div>
+    {% if not model.isRemark() %}
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('admin/logs', 'VIEW_CHANGES') }}</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <th>{{ t('admin/logs', 'VIEW_CHANGES_PARAMETER') }}</th>
+                    <th>{{ t('admin/logs', 'VIEW_CHANGES_NEW_VALUE') }}</th>
+                    <th>{{ t('admin/logs', 'VIEW_CHANGES_OLD_VALUE') }}</th>
+                </thead>
+                <tbody>
+                {% for attribute in model.getData() %}
+                    <tr>
+                        <td>{{ attribute.label }}</td>
+                        <td>{{ attribute.newValue }}</td>
+                        <td>{{ attribute.oldValue }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>

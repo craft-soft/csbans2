@@ -1,0 +1,222 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ register_asset_bundle('app/assets/ContextMenuAsset') }}
+{{ use('yii/widgets/DetailView') }}
+{% if canActions %}
+{{ register_js_begin() }}
+<script>
+    const getPlayer = function(elem) {
+        const player = elem.find('[data-server-players-player-name]');
+        if (!player) {
+            return false;
+        }
+        const playerName = player.text();
+        if (!playerName) {
+            return false;
+        }
+        return playerName;
+    };
+    const request = function(action, playerName, message, length) {
+        $.ajax({
+            url: UrlManager.createUrl('admin/servers/player-action', {id: '{{ model.id }}'}),
+            type: 'POST',
+            data: {
+                action: action,
+                player: playerName,
+                message: message,
+                length: length
+            },
+        });
+    };
+    $.contextMenu({
+        selector: '[data-server-players-list] tr',
+        items: {
+            ban: {
+                name: '{{ t('admin/servers', 'ONLINE_ACTION_BAN') }}',
+                icon: 'fas fa-ban',
+                callback: function(itemKey, options) {
+                    const playerName = getPlayer(options.$trigger);
+                    if (!playerName) {
+                        return false;
+                    }
+                    const banReason = prompt(
+                        '{{ t('admin/servers', 'ONLINE_ACTION_BAN_REASON_PROMPT') }}'.replace('{player}', playerName),
+                        '{{ t('admin/servers', 'ONLINE_ACTION_BAN_REASON_PROMPT_DEFAULT') }}'
+                    );
+                    const banLength = prompt(
+                        '{{ t('admin/servers', 'ONLINE_ACTION_BAN_LENGTH_PROMPT') }}'.replace('{player}', playerName),
+                        '1440'
+                    );
+                    request('ban', playerName, banReason, banLength);
+                },
+            },
+            separator: '-----',
+            kick: {
+                icon: 'fas fa-sign-out-alt',
+                name: '{{ t('admin/servers', 'ONLINE_ACTION_KICK') }}',
+                callback: function(itemKey, options) {
+                    const playerName = getPlayer(options.$trigger);
+                    if (!playerName) {
+                        return false;
+                    }
+                    if (!confirm('{{ t('admin/servers', 'ONLINE_ACTION_KICK_CONFIRM_MESSAGE') }}'.replace('{player}', playerName))) {
+                        return false;
+                    }
+                    request('kick', playerName, null, null);
+                },
+            },
+            separator2: '-----',
+            message: {
+                name: '{{ t('admin/servers', 'ONLINE_ACTION_MESSAGE') }}',
+                icon: 'fas fa-envelope',
+                callback: function(itemKey, options) {
+                    const playerName = getPlayer(options.$trigger);
+                    if (!playerName) {
+                        return false;
+                    }
+                    const message = prompt('{{ t('admin/servers', 'ONLINE_ACTION_MESSAGE_PROMPT') }}'.replace('{player}', playerName));
+                    if (!message) {
+                        return false;
+                    }
+                    request('message', playerName, message, null);
+                }
+            },
+        }
+    });
+</script>
+{{ register_js_end() }}
+{% endif %}
+<div
+  class="servers-view"
+  data-server-info
+  data-server-ip="{{ model.getIp() }}"
+  data-server-port="{{ model.getPort() }}"
+  data-server-type="{{ model.gametype }}">
+    <div class="d-flex justify-content-between flex-wrap mb-3">
+        <h2 class="mb-0">{{ t('admin/servers', 'VIEW_TITLE', {name: model.hostname, address: model.address}) }}</h2>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            {% if canRcon and model.hasRcon() %}
+            <a href="{{ path('rcon-console', {id: model.id}) }}"
+               class="btn btn-info">{{ t('admin/servers', 'VIEW_RCON_LINK') }}</a>
+            {% endif %}
+            {% if canUpdate %}
+            <a href="{{ path('update', {id: model.id}) }}"
+               class="btn btn-primary">{{ t('admin/servers', 'VIEW_UPDATE_LINK') }}</a>
+            <a
+              href="{{ path('delete', {id: model.id}) }}"
+              data-confirm="{{ t('admin/servers', 'VIEW_DELETE_LINK_CONFIRM') }}"
+              data-method="post"
+              class="btn btn-danger">{{ t('admin/servers', 'VIEW_DELETE_LINK') }}</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ t('admin/servers', 'VIEW_CARD_GENERAL_INFORMATION_TITLE') }}</h3>
+                </div>
+                <div class="card-body">
+                    {{ detail_view_widget({
+                        model: model,
+                        attributes: [
+                            {
+                                attribute: 'id',
+                                captionOptions: {
+                                    style: 'width: 50%'
+                                },
+                            },
+                            'hostname',
+                            'address:serverAddress',
+                            'gametype',
+                            'amxban_motd',
+                            'motd_delay',
+                            'timezone_fixx',
+                        ],
+                    }) }}
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ t('admin/servers', 'VIEW_CARD_ONLINE_INFORMATION_TITLE') }}</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <colgroup>
+                            <col style="width: 50%">
+                        </colgroup>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_STATUS') }}</th>
+                            <td>
+                                <div data-server-status></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_HOSTNAME') }}</th>
+                            <td>
+                                <div data-server-hostname></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_PLAYERS_COUNT') }}</th>
+                            <td>
+                                <span data-server-online-payers></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_MAP') }}</th>
+                            <td>
+                                <div data-server-map></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_NEXT_MAP') }}</th>
+                            <td>
+                                <div data-server-next-map></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_NEXT_MAP_TIME') }}</th>
+                            <td>
+                                <div data-server-next-map-time></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ t('servers', 'VIEW_ONLINE_PLAYERS_TITLE') }}</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <th>
+                            <a href="#" data-server-players-sort="name">{{ t('servers', 'VIEW_ONLINE_PLAYERS_PLAYER_NAME') }}</a>
+                        </th>
+                        <th>
+                            <a href="#" data-server-players-sort="score">{{ t('servers', 'VIEW_ONLINE_PLAYERS_PLAYER_SCORE') }}</a>
+                        </th>
+                        <th>
+                            <a href="#" data-server-players-sort="time">{{ t('servers', 'VIEW_ONLINE_PLAYERS_PLAYER_TIME') }}</a>
+                        </th>
+                        </thead>
+                        <tbody data-server-players-list>
+                        <template data-server-players-player-template>
+                            <tr>
+                                <td data-server-players-player-name></td>
+                                <td data-server-players-player-score></td>
+                                <td data-server-players-player-time></td>
+                            </tr>
+                        </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

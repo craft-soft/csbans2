@@ -1,0 +1,102 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+<div class="page">
+    <div class="page-header d-flex">
+        <a href="{{ path(['index']) }}" class="page-header__back-link"><i class="fa-solid fa-arrow-left"></i></a>
+        <h3 class="mb-0 ms-2">{{ t('servers', 'VIEW_TITLE', {serverName: server.hostname}) }}</h3>
+    </div>
+    <div class="page-body">
+        <div
+          class="servers-view"
+          data-server-info
+          data-server-ip="{{ server.getIp() }}"
+          data-server-port="{{ server.getPort() }}"
+          data-server-type="{{ server.gametype }}">
+            <div class="row">
+                <div class="col-lg-7">
+                    <h4>{{ t('servers', 'VIEW_ONLINE_PLAYERS_TITLE') }}</h4>
+                    <table class="table table-bordered">
+                        <colgroup>
+                            <col>
+                            <col style="width: 80px">
+                            <col style="width: 100px">
+                        </colgroup>
+                        <thead>
+                            <th>
+                                <a href="#" data-server-players-sort="name">{{ t('servers', 'VIEW_ONLINE_PLAYERS_PLAYER_NAME') }}</a>
+                            </th>
+                            <th>
+                                <a href="#" data-server-players-sort="score">
+                                    {{ t('servers', 'VIEW_ONLINE_PLAYERS_PLAYER_SCORE') }}
+                                </a>
+                            </th>
+                            <th>
+                                <a href="#" data-server-players-sort="time">{{ t('servers', 'VIEW_ONLINE_PLAYERS_PLAYER_TIME') }}</a>
+                            </th>
+                        </thead>
+                        <tbody data-server-players-list>
+                            <template data-server-players-player-template>
+                                <tr>
+                                    <td data-server-players-player-name></td>
+                                    <td data-server-players-player-score></td>
+                                    <td data-server-players-player-time></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-5">
+                    <h4>{{ t('servers', 'VIEW_ONLINE_INFO_TITLE') }}</h4>
+                    <table class="table table-bordered">
+                        <colgroup>
+                            <col style="width: 50%">
+                        </colgroup>
+                        <tr>
+                            <td colspan="2" class="text-center">
+                                <img data-server-map-image src="{{ defaultMapImage }}" class="img-thumbnail" alt="Offline">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_STATUS') }}</th>
+                            <td>
+                                <div data-server-status></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_HOSTNAME') }}</th>
+                            <td>
+                                <div data-server-hostname></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_PLAYERS_COUNT') }}</th>
+                            <td>
+                                <span data-server-online-payers></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_MAP') }}</th>
+                            <td>
+                                <div data-server-map></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_NEXT_MAP') }}</th>
+                            <td>
+                                <div data-server-next-map></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ t('servers', 'ONLINE_DATA_NEXT_MAP_TIME') }}</th>
+                            <td>
+                                <div data-server-next-map-time></div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

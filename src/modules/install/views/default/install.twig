@@ -1,0 +1,55 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+{{ use('app/modules/install/assets/InstallAsset') }}
+{{ register_install_asset() }}
+{{ this.registerCss('[data-install-success] {display: none}') }}
+<div class="install-form" >
+    <div class="page">
+        <div class="page-header">
+            <h3>{{ t('install', 'VIEW_TITLE') }}</h3>
+        </div>
+        <div class="page-body">
+            {% set form = active_form_begin({
+                id: 'install-form',
+                type: 'horizontal',
+                enableAjaxValidation: true,
+                fieldConfig: {
+                    labelSpan: 3
+                },
+                options: {
+                    'data-first-step': firstStep,
+                    'data-steps': steps
+                }
+            }) %}
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>{{ t('install', 'VIEW_DB_TITLE') }}</h4>
+                    {{ form.field(model, 'dbHost') | raw }}
+                    {{ form.field(model, 'dbPort').input('number') | raw }}
+                    {{ form.field(model, 'dbUser') | raw }}
+                    {{ form.field(model, 'dbPassword').passwordInput() | raw }}
+                    {{ form.field(model, 'dbName') | raw }}
+                    {{ form.field(model, 'dbPrefix') | raw }}
+                </div>
+                <div class="col-md-6">
+                    <h4>{{ t('install', 'VIEW_ADMIN_TITLE') }}</h4>
+                    {{ form.field(model, 'adminName') | raw }}
+                    {{ form.field(model, 'adminEmail') | raw }}
+                    {{ form.field(model, 'adminPassword').passwordInput() | raw }}
+                    <ul data-progress-block></ul>
+                    <div data-install-success>
+                        {{ t('install', 'INSTALL_DONE') }}
+                        <a href="{{ path(['/']) }}" class="text-success">{{ t('install', 'GO_HOME_LINK') }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary" id="submitButton">{{ t('install', 'FORM_SAVE_BUTTON') }}</button>
+            </div>
+            {{ active_form_end() }}
+        </div>
+    </div>
+</div>

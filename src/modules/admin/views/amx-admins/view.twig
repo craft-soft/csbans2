@@ -1,0 +1,94 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/widgets/DetailView') }}
+<div class="amxadmins-view">
+    <div class="d-flex justify-content-between flex-wrap mb-3">
+        <h2 class="mb-0">{{ t('admin/amxAdmins', 'VIEW_TITLE', {nickname: model.nickname}) }}</h2>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <a href="{{ path('update', {id: model.id}) }}" class="btn btn-primary">{{ t('admin/amxAdmins', 'VIEW_UPDATE_LINK') }}</a>
+            <a
+              href="{{ path('delete', {id: model.id}) }}"
+              data-confirm="{{ t('admin/amxAdmins', 'VIEW_DELETE_LINK_CONFIRM') }}"
+              data-method="post"
+              class="btn btn-danger">{{ t('admin/amxAdmins', 'VIEW_DELETE_LINK') }}</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ t('admin/amxAdmins', 'VIEW_CARD_GENERAL_INFORMATION_TITLE') }}</h3>
+                </div>
+                <div class="card-body">
+                    {{ detail_view_widget({
+                        model: model,
+                        attributes: [
+                            'id',
+                            'nickname',
+                            {
+                                attribute: 'flags',
+                                value: model.viewAccountType
+                            },
+                            'steamid',
+                            'username',
+                            'ashow:boolean',
+                            'days',
+                            'created:datetime',
+                            'viewExpired',
+                        ],
+                    }) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ t('amxAdmins', 'ATTRIBUTE_ACCESS_FLAGS') }}</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for flag in flags %}
+                            <li>{{ flag }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('amxAdmins', 'ATTRIBUTE_SERVERS_LIST') }}</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>{{ t('amxAdmins', 'ATTRIBUTE_SERVER_NAME') }}</th>
+                        <th>{{ t('amxAdmins', 'ATTRIBUTE_ACCESS') }}</th>
+                        <th>{{ t('amxAdmins', 'ATTRIBUTE_STATIC_BANTIME') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for serverLink in servers %}
+                    <tr>
+                        <td>{{ serverLink.server.hostname }} ({{ serverLink.server.address }})</td>
+                        <td>
+                            <ul>
+                                {% for flag in serverLink.viewAccessFlags %}
+                                    <li>{{ flag }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            {{ app.formatter.asBoolean(serverLink.use_static_bantime) }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

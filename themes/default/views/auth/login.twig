@@ -1,0 +1,35 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+<main class="form-signin w-100 m-auto">
+    <div class="text-center">
+        <h1 class="h3 mb-3 fw-normal">{{ t('login', 'VIEW_TITLE') }}</h1>
+    </div>
+    {% set form = active_form_begin({
+        id: 'login-form',
+        type: 'floating',
+        enableAjaxValidation: true,
+        fieldConfig: {
+            labelSpan: 4
+        },
+    }) %}
+    {{ form.field(model, 'username').textInput({'autofocus': true}) | raw }}
+    {{ form.field(model, 'password').passwordInput() | raw }}
+    <div class="d-flex justify-content-center mb-3">
+        <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="{{ Html.getInputName(model, 'rememberMe') }}"
+              value=""
+              id="{{ Html.getInputId(model, 'rememberMe') }}">
+            <label class="form-check-label" for="{{ Html.getInputId(model, 'rememberMe') }}">
+                {{ model.getAttributeLabel('rememberMe') }}
+            </label>
+        </div>
+    </div>
+    <button type="submit" class="w-100 btn btn-lg btn-secondary">{{ t('login', 'FORM_SUBMIT_BUTTON') }}</button>
+    {{ active_form_end() }}
+</main>

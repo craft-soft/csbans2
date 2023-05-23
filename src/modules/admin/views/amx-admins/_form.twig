@@ -1,0 +1,73 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+<div class="amxadmins-form">
+    {% set form = active_form_begin({
+        id: 'amxadmins-form',
+        enableAjaxValidation: true,
+    }) %}
+        <div class="row">
+            <div class="col-md-5">
+                {{ form.field(model, 'nickname') | raw }}
+                {{ form.field(model, 'accountType').dropdownList(model.accountFlags()) | raw }}
+                {{ form.field(model, 'steamid') | raw }}
+                {{ form.field(model, 'username') | raw }}
+                {{ form.field(model, 'passwordField').passwordInput() | raw }}
+                {{ form.field(model, 'expiredDate').widget('\\kartik\\date\\DatePicker', {
+                    layout: '{input}{picker}{remove}<span class="input-group-text">' ~ Html.activeCheckbox(model, 'forever', {uncheck: false}) ~ '</span>',
+                    pluginOptions: {
+                        format: 'dd.mm.yyyy',
+                        autoclose: true
+                    }
+                }) | raw }}
+                {{ form.field(model, 'ashow').checkbox() | raw }}
+            </div>
+            <div class="col-md-7">
+                {{ form.field(model, 'accessFlags').checkboxList(model.accessFlags()) | raw }}
+            </div>
+        </div>
+        <h5>{{ t('amxAdmins', 'ATTRIBUTE_SERVERS') }}</h5>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>{{ t('amxAdmins', 'ATTRIBUTE_SERVER_NAME') }}</th>
+                    <th>{{ t('amxAdmins', 'ATTRIBUTE_ACCESS') }}</th>
+                    <th>{{ t('amxAdmins', 'ATTRIBUTE_STATIC_BANTIME') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for models in model.getServersModels() %}
+                    <tr>
+                        <td>
+                            {{ form.field(models.link, '[' ~ models.link.server_id ~ ']enabled').checkbox({
+                                label: false,
+                                class: 'amx-admin-server-enabled',
+                                'data-server': models.link.server_id,
+                                id: 'server-selector-' ~ models.link.server_id
+                            }) | raw }}
+                        </td>
+                        <td>
+                            <label for="server-selector-{{ models.link.server_id }}">
+                                {{ models.server }}
+                            </label>
+                        </td>
+                        <td>
+                            <div data-server-id="{{ models.link.server_id }}">
+                                {{ form.field(models.link, '[' ~ models.link.server_id ~ ']customFlagsList').checkboxList(model.accessFlags()).label(false) | raw }}
+                            </div>
+                        </td>
+                        <td>
+                            <div data-server-id="{{ models.link.server_id }}">
+                                {{ form.field(models.link, '[' ~ models.link.server_id ~ ']use_static_bantime').dropDownList(app.formatter.booleanFormat).label(false) | raw }}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">{{ t('admin/amxAdmins', 'FORM_SAVE_BUTTON') }}</button>
+    {{ active_form_end() }}
+</div>

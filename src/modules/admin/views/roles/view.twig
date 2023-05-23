@@ -1,0 +1,50 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/widgets/DetailView') }}
+<div class="roles-view">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h3 class="card-title">{{ t('admin/roles', 'VIEW_TITLE', {description: t('rbac', model.description)}) }}</h3>
+                <div class="card-tools ms-auto">
+                    <a href="{{ path('update', {id: model.id}) }}" class="btn btn-tool text-primary">{{ t('admin/roles', 'VIEW_UPDATE_LINK') }}</a>
+                    <a
+                      href="{{ path('delete', {id: model.id}) }}"
+                      data-confirm="{{ t('admin/roles', 'VIEW_DELETE_LINK_CONFIRM') }}"
+                      data-method="post"
+                      class="btn btn-tool text-danger">{{ t('admin/roles', 'VIEW_DELETE_LINK') }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {{ detail_view_widget({
+                model: model,
+                attributes: [
+                    'name',
+                    {
+                        attribute: 'description',
+                        value: t('rbac', model.description)
+                    },
+                    'createdAt:datetime',
+                ],
+            }) }}
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('admin/roles', 'VIEW_PERMISSIONS_TITLE') }}</h3>
+        </div>
+        <div class="card-body">
+            <ul>
+                <li>{{ model.getAttributeLabel('editBansPermission') }}: {{ model.banPermissionText('editBansPermission') }}</li>
+                <li>{{ model.getAttributeLabel('unbanBansPermission') }}: {{ model.banPermissionText('unbanBansPermission') }}</li>
+                <li>{{ model.getAttributeLabel('deleteBansPermission') }}: {{ model.banPermissionText('deleteBansPermission') }}</li>
+                {% for permissionName, permissionDescription in model.permissions() %}
+                <li>{{ t('rbac', permissionDescription) }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

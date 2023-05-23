@@ -1,0 +1,61 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('wbraganca/dynamicform/DynamicFormWidget') }}
+{{ use('kartik/form/ActiveForm') }}
+<div class="webadmin-form">
+    {% set form = active_form_begin({
+        id: 'reasons-form',
+        enableAjaxValidation: true
+    }) %}
+        {{ form.field(model, 'setname') | raw }}
+        {{ dynamic_form_widget_begin({
+            widgetContainer: 'dynamicform_wrapper',
+            widgetBody: '.container-items',
+            widgetItem: '.item',
+            min: 1,
+            insertButton: '.add-item',
+            deleteButton: '.remove-item',
+            model: reasons[0],
+            formId: 'reasons-form',
+            formFields: [
+                'reason',
+                'static_bantime',
+            ],
+        }) }}
+            <div class="d-flex align-items-center">
+                <h2>Причины</h2>
+                <button type="button" class="add-item btn btn-success btn-xs ms-auto"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            <div class="container-items">
+                {% for key, reason in reasons %}
+                <div class="item">
+                    {% if not reason.isNewRecord %}
+                        {{ form.field(reason, '[' ~ key ~ ']id').hiddenInput().label(false) | raw }}
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-6">
+                            {{ form.field(reason, '[' ~ key ~ ']reason') | raw }}
+                        </div>
+                        <div class="col-6">
+                            {{ form.field(reason, '[' ~ key ~ ']static_bantime', {
+                                highlightAddon: false,
+                                addon: {
+                                    append: {
+                                        content: Html.button('<i class="fa-solid fa-minus"></i>', {
+                                            class: 'remove-item btn btn-danger',
+                                        }),
+                                        asButton: true
+                                    }
+                                }
+                            }) | raw }}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {{ dynamic_form_widget_end() }}
+        <button type="submit" class="btn btn-primary">{{ t('admin/links', 'FORM_SAVE_BUTTON') }}</button>
+    {{ active_form_end() }}
+</div>

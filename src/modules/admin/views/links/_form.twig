@@ -1,0 +1,15 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+<div class="webadmin-form">
+    {% set form = active_form_begin({
+        id: 'webadmins-form'
+    }) %}
+        {{ form.field(model, 'label') | raw }}
+        {{ form.field(model, 'url') | raw }}
+        {{ form.field(model, 'roles').checkboxList(model.getRolesForForm()) | raw }}
+        <button type="submit" class="btn btn-primary">{{ t('admin/links', 'FORM_SAVE_BUTTON') }}</button>
+    {{ active_form_end() }}
+</div>

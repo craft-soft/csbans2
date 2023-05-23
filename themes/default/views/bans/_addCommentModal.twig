@@ -1,0 +1,34 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+<div class="bans-view__add-comment-modal-container" data-ban-add-content="comment" data-pjax-container="#banCommentsContainer">
+    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#addCommentModal">
+        {{ t('bans', 'VIEW_ADD_COMMENT_BUTTON') }}
+    </button>
+    <div class="modal fade" id="addCommentModal" tabindex="-1" aria-labelledby="banAddCommentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                {% set form = active_form_begin({
+                    id: 'new-comment-form',
+                    type: 'horizontal',
+                    enableAjaxValidation: true
+                }) %}
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="banAddCommentModalLabel">{{ t('bans', 'VIEW_ADD_COMMENT_MODAL_TITLE', {playerName: ban.player_nick}) }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form.field(model, 'email').input('email') | raw }}
+                        {{ form.field(model, 'name') | raw }}
+                        {{ form.field(model, 'comment').textarea() | raw }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-secondary">{{ t('bans', 'VIEW_SAVE_COMMENT_BUTTON') }}</button>
+                    </div>
+                {{ active_form_end() }}
+            </div>
+        </div>
+    </div>
+</div>

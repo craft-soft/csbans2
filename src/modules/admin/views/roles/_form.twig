@@ -1,0 +1,25 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+<div class="roles-form">
+    {% set form = active_form_begin({
+        id: 'roles-form',
+        enableAjaxValidation: true
+    }) %}
+        {{ form.field(model, 'name').textInput() | raw }}
+        {{ form.field(model, 'description').textInput() | raw }}
+        <div class="row">
+            <div class="col-6">
+                {{ form.field(model, 'editBansPermission').radioList(model.bansPermissionsValues()) | raw }}
+                {{ form.field(model, 'unbanBansPermission').radioList(model.bansPermissionsValues()) | raw }}
+                {{ form.field(model, 'deleteBansPermission').radioList(model.bansPermissionsValues()) | raw }}
+            </div>
+            <div class="col-6">
+                {{ form.field(model, 'permissions').checkboxList(model.getPermissionsForForm()).label(false) | raw }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">{{ t('admin/roles', 'FORM_SAVE_BUTTON') }}</button>
+    {{ active_form_end() }}
+</div>

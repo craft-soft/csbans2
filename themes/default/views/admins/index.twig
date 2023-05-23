@@ -1,0 +1,47 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+<div class="admins-index">
+    <div class="page-header">
+        <h3>{{ t('amxAdmins', 'INDEX_TITLE') }}</h3>
+    </div>
+    <div class="page-body">
+        {{ pjax_begin() }}
+        <div class="table-responsive" data-banlist>
+            <table class="table table-bordered bans-table">
+                <thead>
+                <tr>
+                    <th>{{ sort.link('nickname') | raw }}</th>
+                    <th>{{ sort.link('access') | raw }}</th>
+                    <th>{{ sort.link('created') | raw }}</th>
+                    <th>{{ sort.link('expired') | raw }}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for admin in admins %}
+                    <tr>
+                        <td>{{ admin.nickname }}</td>
+                        <td>{{ admin.access }}</td>
+                        <td>{{ admin.created | as_datetime }}</td>
+                        <td>{{ admin.expired | as_expired_date }}</td>
+                        <td>
+                            <a href="{{ path('view', {id: admin.id}) }}" data-pjax="0" class="table-action"><i class="fa-regular fa-circle-question"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ link_pager_widget({
+                pagination: pagination,
+                listOptions: {
+                    class: 'pagination'
+                },
+                nextPageLabel: '<span aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span>',
+                prevPageLabel: '<span aria-hidden="true"><i class="fa-solid fa-arrow-left"></i></span>',
+            }) }}
+        </div>
+        {{ pjax_end() }}
+    </div>
+</div>

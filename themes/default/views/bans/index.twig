@@ -1,0 +1,107 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/widgets/ActiveForm') }}
+<div class="bans">
+    <div class="page-header">
+        <h3>{{ t('bans', 'INDEX_TITLE') }}</h3>
+    </div>
+    <div class="page-body">
+        {{ pjax_begin() }}
+        <div class="d-md-flex justify-content-between align-items-center mb-3">
+            <div class="bans__user_banned_info">
+                {% if userBanned %}
+                    {{ t('bans', 'USER_BANNED', {ip: userIp}) | raw }}
+                {% else %}
+                    {{ t('bans', 'USER_NOT_BANNED', {ip: userIp}) | raw }}
+                {% endif %}
+            </div>
+            <div class="bans__search">
+                {% set form = active_form_begin({
+                    id: 'bans-form',
+                    enableAjaxValidation: true,
+                    action: ['index'],
+                    method: 'get',
+                    options: {
+                        'data-pjax': '1'
+                    },
+                }) %}
+                    <div class="input-group">
+                        <select class="form-select" name="{{ Html.getInputName(searchModel, 'field') }}">
+                            <option>Тип поиска</option>
+                            {% for field, label in searchModel.fieldsForSearch() %}
+                            <option value="{{ field }}"{% if field == searchModel.field %} selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                        <input class="form-control" name="{{ Html.getInputName(searchModel, 'query') }}" value="{{ searchModel.query }}">
+                        <button class="btn btn-secondary" type="submit">Искать</button>
+                    </div>
+                {{ active_form_end() }}
+            </div>
+        </div>
+        <div class="table-responsive" data-banlist>
+            <table class="table table-bordered bans-table">
+                <thead>
+                    <tr>
+                        <th>{{ sort.link('ban_created') | raw }}</th>
+                        <th>{{ sort.link('player_nick') | raw }}</th>
+                        <th>{{ sort.link('admin_nick') | raw }}</th>
+                        <th>{{ sort.link('ban_reason') | raw }}</th>
+                        <th>{{ sort.link('ban_length') | raw }}</th>
+                        {% if viewFiles %}
+                            <th>{{ sort.link('files_count') | raw }}</th>
+                        {% endif %}
+                        {% if viewComments %}
+                            <th>{{ sort.link('comments_count') | raw }}</th>
+                        {% endif %}
+                        {% if viewKicks %}
+                            <th>{{ sort.link('ban_kicks') | raw }}</th>
+                        {% endif %}
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ban in bans %}
+                    <tr{% if ban.isUnbanned() %} class="unbanned"{% endif %}>
+                        <td>{{ ban.ban_created | as_datetime }}</td>
+                        <td>
+                            <img src="{{ defaultFlag }}" alt="" data-ban-flag="{{ ban.bid }}">
+                            <span class="banlist-player-nick ms-2">{{ ban.player_nick }}</span>
+                        </td>
+                        <td>{{ ban.admin_nick }}</td>
+                        <td>{{ ban.ban_reason }}</td>
+                        <td>{{ ban.ban_length | as_ban_length }}</td>
+                        {% if viewFiles %}
+                            <td>{{ ban.files_count }}</td>
+                        {% endif %}
+                        {% if viewComments %}
+                            <td>{{ ban.comments_count }}</td>
+                        {% endif %}
+                        {% if viewKicks %}
+                            <td>{{ ban.ban_kicks }}</td>
+                        {% endif %}
+                        <td>
+                            <a href="{{ path(['view'], {id: ban.bid}) }}" data-pjax="0" class="table-action"><i class="fa-regular fa-circle-question"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if viewIpGeoCred %}
+            <div>
+                <small class="text-muted">{{ ipGeoCred | raw }}</small>
+            </div>
+            {% endif %}
+            {{ link_pager_widget({
+                pagination: pagination,
+                listOptions: {
+                    class: 'pagination'
+                },
+                nextPageLabel: '<span aria-hidden="true"><i class="fa-solid fa-arrow-right"></i></span>',
+                prevPageLabel: '<span aria-hidden="true"><i class="fa-solid fa-arrow-left"></i></span>',
+            }) }}
+        </div>
+        {{ pjax_end() }}
+    </div>
+</div>

@@ -1,0 +1,18 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/bootstrap5/ActiveForm') }}
+{% set form = active_form_begin({
+    id: 'login-form',
+    action: ['/auth/login'],
+    enableAjaxValidation: true,
+    options: {
+        class: 'px-4 py-3'
+    }
+}) %}
+    {{ form.field(model, 'username') | raw }}
+    {{ form.field(model, 'password').passwordInput() | raw }}
+    {{ form.field(model, 'rememberMe').checkbox() | raw }}
+    <button type="submit" class="btn btn-secondary">{{ t('login', 'FORM_SUBMIT_BUTTON') }}</button>
+{{ active_form_end() }}

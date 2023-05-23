@@ -1,0 +1,24 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+<div class="webadmin-form">
+    {% set form = active_form_begin({
+        id: 'webadmins-form',
+        type: 'horizontal'
+    }) %}
+        {{ form.field(model, 'username') | raw }}
+        {{ form.field(model, 'email').input('email') | raw }}
+        {{ form.field(model, 'password_input').passwordInput() | raw }}
+        {{ form.field(model, 'roles').checkboxList(model.allRoles()) | raw }}
+        {% if not model.isNewRecord %}
+            {{ form.field(model, 'try') | raw }}
+        {% endif %}
+        <div class="col-md-10 offset-md-2">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">{{ t('admin/webadmins', 'FORM_SAVE_BUTTON') }}</button>
+            </div>
+        </div>
+    {{ active_form_end() }}
+</div>

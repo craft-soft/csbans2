@@ -1,0 +1,99 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+{{ register_js_begin() }}
+<script>
+    $(document).on('change', '#{{ Html.getInputId(profile, 'avatar') }}', function() {
+        const field = $(this);
+        if (!field[0] || !field[0].files || !field[0].files[0]) {
+            return;
+        }
+        const avatarImg = $('#profile-avatar-img');
+        if (avatarImg.length) {
+            const reader = new FileReader();
+            reader.readAsDataURL(field[0].files[0]);
+            reader.onload = function(e) {
+                avatarImg.attr('src', e.target.result);
+            };
+        }
+    });
+    $(document).on('click', '#delete-avatar-btn', function(e) {
+        e.preventDefault();
+        if (confirm('{{ t('admin/profile', 'DELETE_AVATAR_CONFIRM') }}')) {
+            $.ajax({
+                {% if baseId %}
+                url: UrlManager.createUrl('admin/profile/delete-avatar', {id: '{{ baseId }}'}),
+                {% else %}
+                url: UrlManager.createUrl('admin/profile/delete-avatar'),
+                {% endif %}
+                type: 'DELETE',
+            }).then(function() {
+                $.pjax.reload('#profile-form-container');
+            });
+        }
+    });
+</script>
+{{ register_js_end() }}
+<div class="profile-index">
+    <h2>{{ pageTitle }}</h2>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ t('admin/profile', 'GENERAL_CARD_TITLE') }}</h3>
+                </div>
+                <div class="card-body">
+                    {{ pjax_begin({
+                        id: 'profile-form-container',
+                        linkSelector: false,
+                        enablePushState: false,
+                        enableReplaceState: false,
+                        formSelector: '#profile-form',
+                    }) }}
+                    {% set form = active_form_begin({
+                        id: 'profile-form',
+                        enableAjaxValidation: true,
+                        type: 'horizontal',
+                        options: {enctype: 'multipart/form-data'},
+                    }) %}
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>{{ t('admin/profile', 'AVATAR_LABEL') }}</label>
+                            </div>
+                            <div class="col-xl-5 col-lg-9 col-md-9">
+                                <div class="card">
+                                    <img src="{{ avatar }}" class="card-img-top" id="profile-avatar-img" alt="Avatar">
+                                    <div class="card-body">
+                                        {{ form.field(profile, 'avatar').widget('\\app\\widgets\\FileInputButton', {
+                                            options: {accept: 'image/*'},
+                                            labelOptions: {class: 'btn btn-outline-primary w-100'},
+                                            label: t('admin/profile', 'AVATAR_UPLOAD_BUTTON')
+                                        }) | raw }}
+                                        {% if hasAvatar %}
+                                        <button class="btn btn-danger w-100 mt-2" id="delete-avatar-btn">{{ t('admin/profile', 'AVATAR_DELETE_BUTTON') }}</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row highlight-addon">
+                            <label class="col-form-label col-md-2">E-mail</label>
+                            <div class="col-md-10">
+                                <div class="p-1">{{ identity.email }}</div>
+                            </div>
+                        </div>
+                        {{ form.field(profile, 'first_name') | raw }}
+                        {{ form.field(profile, 'last_name') | raw }}
+                        {{ form.field(profile, 'language').dropdownList(app.appParams.languages(), {prompt: t('admin/profile', 'LANGUAGE_SELECTOR_PROMPT')}) | raw }}
+                        <div class="offset-2">
+                            <button type="submit" class="btn btn-primary">{{ t('admin/profile', 'FORM_SAVE_BUTTON') }}</button>
+                        </div>
+                    {{ active_form_end() }}
+                    {{ pjax_end() }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,250 @@
+/*
+ * Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+ * License: GNU LGPL 2 only, see file LICENSE
+ */
+
+@import "montserrat.css";
+
+:root {
+    --bs-body-font-family: 'Montserrat', sans-serif;
+    --bs-body-color: #444444;
+    --bs-link-color: var(--bs-body-color);
+    --bs-link-hover-color: var(--bs-body-color);
+    --bs-dark-rgb: 68, 68, 68;
+}
+
+.dropdown-menu {
+    --bs-dropdown-link-active-bg: var(--bs-body-color);
+}
+
+body {
+    background: url(../images/bg.png) no-repeat bottom right fixed;
+}
+
+.form-control:focus {
+    border-color: var(--bs-body-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-dark-rgb), 0.25);
+}
+
+.form-check-input:checked {
+    background-color: var(--bs-body-color);
+    border-color: var(--bs-body-color);
+}
+
+.form-check-input:focus {
+    border-color: var(--bs-body-color);
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-dark-rgb), 0.25);
+}
+
+.nav {
+    --bs-nav-link-padding-x: 32px
+}
+
+main {
+    text-shadow: 0 0 1px #fff;
+}
+
+main > .container {
+    padding: 30px 15px 20px;
+}
+
+.bg-dark {
+    color: #fff;
+    text-shadow: none;
+}
+
+.main-site-name h1 {
+    font-weight: 400;
+    font-size: 72px;
+    margin-bottom: 40px;
+}
+
+.main-nav-md {
+    width: max-content;
+}
+
+.main-nav {
+    margin-bottom: 30px;
+    border-bottom: 5px solid var(--bs-body-color);
+    width: max-content;
+}
+
+table.table {
+    background: #fff;
+}
+
+table.table th {
+    background: var(--bs-body-color);
+    color: #fff;
+    border: none;
+}
+
+table.table th a {
+    color: #fff;
+    text-decoration: none;
+    text-shadow: none;
+}
+
+table.table th a.asc:after {
+    border-bottom: solid 7px #fff;
+    border-top-width: 0;
+}
+
+table.table th a.desc:after {
+    border-top: solid 7px #fff;
+    border-bottom-width: 0;
+}
+
+table.table a.table-action {
+    color: var(--bs-body-color);
+}
+
+table.bans-table tr.unbanned {
+    color: #c6c6c6 !important;
+}
+
+table.bans-table tr.unbanned [data-ban-flag] {
+    opacity: .3;
+}
+
+.bg-dark a.table-action {
+    color: #fff !important;
+}
+
+.bans__search {
+    width: 50%;
+}
+
+[class*="btn-outline"] {
+    background: #fff;
+}
+
+.btn-outline-secondary {
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-border-color: var(--bs-body-color);
+    --bs-btn-hover-bg: var(--bs-body-color);
+    --bs-btn-hover-border-color: var(--bs-body-color);
+    --bs-btn-active-bg: var(--bs-body-color);
+    --bs-btn-active-border-color: var(--bs-body-color);
+    --bs-btn-disabled-color: var(--bs-body-color);
+    --bs-btn-disabled-border-color: var(--bs-body-color);
+    --bs-btn-disabled-bg: #fff;
+}
+
+.btn-secondary {
+    --bs-btn-bg: var(--bs-body-color);
+}
+
+.nav-link.active {
+    font-weight: 700;
+}
+
+.nav-md {
+    background: #fff;
+}
+
+.nav-md .nav-link.active {
+    border-bottom: none;
+    font-weight: 700;
+}
+
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+.page-header .page-header__title {
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+.page-header .page-header__back-link {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #a6a6a6;
+    text-decoration: none;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    content: '';
+    left: 3px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border: solid 5px transparent;
+    margin: 4px 4px 2px 4px;
+    background: transparent;
+}
+
+.grid-view th {
+    white-space: nowrap;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+.pagination {
+    --bs-pagination-border-width: 0;
+    --bs-pagination-active-bg: var(--bs-body-color);
+    --bs-pagination-active-border-color: var(--bs-body-color);
+    --bs-pagination-border-radius: 5px
+}
+
+.page-link {
+    border-radius: var(--bs-pagination-border-radius);
+}
+
+.ban-view__history {
+    margin-top: 2rem;
+}
+
+.ban-view__history, .ban-view__comments {
+    border-bottom: 1px solid var(--bs-border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+table.table th {
+    text-shadow: none;
+}
+
+table.detail-table th {
+    min-width: 50%;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+}
+
+@media (max-width: 768px) {
+    .bans__search {
+        width: 100%
+    }
+}

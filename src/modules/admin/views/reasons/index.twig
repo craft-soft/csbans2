@@ -1,0 +1,44 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/grid/GridView') }}
+<div class="links-index">
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex align-items-center">
+                <h3 class="card-title">{{ t('admin/reasons', 'INDEX_TITLE') }}</h3>
+                <div class="card-tools ms-auto">
+                    <a href="{{ path(['create']) }}" class="btn btn-tool text-success">
+                        {{ t('admin/reasons', 'INDEX_LINK_ADD') }}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            {{ pjax_begin() }}
+            {{ grid_view_widget({
+                dataProvider: dataProvider,
+                filterModel: searchModel,
+                columns: [
+                    {
+                        attribute: 'id',
+                        options: {
+                            style: 'width: 60px'
+                        },
+                    },
+                    'setname',
+                    {
+                        class: "\\app\\modules\\admin\\components\\grid\\ActionColumn",
+                        visibleButtons: {
+                            view: false,
+                            update: canEdit,
+                            delete: canEdit,
+                        },
+                    }
+                ]
+            }) }}
+            {{ pjax_end() }}
+        </div>
+    </div>
+</div>

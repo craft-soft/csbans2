@@ -1,0 +1,40 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('yii/grid/GridView') }}
+<div class="amxadmins-index">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ t('admin/logs', 'INDEX_TITLE') }}</h3>
+        </div>
+        <div class="card-body">
+            {{ pjax_begin() }}
+            {{ grid_view_widget({
+                dataProvider: dataProvider,
+                filterModel: searchModel,
+                columns: [
+                    {
+                        attribute: 'timestamp',
+                        class: '\\app\\modules\\admin\\components\\grid\\DateColumn',
+                    },
+                    'ip',
+                    'username',
+                    {
+                        attribute: 'action',
+                        filter: searchModel.actions(),
+                        value: 'actionView'
+                    },
+                    {
+                        class: "\\app\\modules\\admin\\components\\grid\\ActionColumn",
+                        visibleButtons: {
+                            delete: false,
+                            update: false
+                        }
+                    }
+                ]
+            }) }}
+            {{ pjax_end() }}
+        </div>
+    </div>
+</div>

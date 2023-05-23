@@ -1,0 +1,15 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{% extends 'base.twig' %}
+{% block content %}
+    {% if models|length %}
+        <dl class="row">
+            {% for model in models %}
+                <dt class="col-sm-6 col-lg-5">{{ t('admin/params', model.label) }}</dt>
+                <dd class="col-sm-6 col-lg-7">{{ model.viewValue }}</dd>
+            {% endfor %}
+        </dl>
+    {% endif %}
+{% endblock %}

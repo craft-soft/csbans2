@@ -1,0 +1,79 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+<div class="page">
+    <div class="page-header d-flex">
+        <a href="{{ path(['index']) }}" class="page-header__back-link"><i class="fa-solid fa-arrow-left"></i></a>
+        <h3 class="mb-0 ms-2">{{ t('amxAdmins', 'VIEW_TITLE', {adminName: admin.nickname}) }}</h3>
+    </div>
+    <div class="page-body">
+        <div class="row">
+            <div class="col-sm-12 col-lg-7">
+                <table class="table table-bordered detail-table">
+                    <tr>
+                        <th>{{ admin.getAttributeLabel('nickname') }}</th>
+                        <td>{{ admin.nickname }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ admin.getAttributeLabel('steamid') }}</th>
+                        <td>{{ admin.steamid | as_steamid | raw }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ admin.getAttributeLabel('flags') }}</th>
+                        <td>{{ accountType }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ admin.getAttributeLabel('created') }}</th>
+                        <td>{{ admin.created | as_datetime }}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ admin.getAttributeLabel('expired') }}</th>
+                        <td>{{ admin.expired | as_expired_date }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-12 col-lg-5">
+                <div class="bg-white">
+                    <h4>{{ t('amxAdmins', 'VIEW_ACCESS_TITLE') }}</h4>
+                    <ul>
+                        {% for flag in flags %}
+                            <li>{{ flag }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white mt-2">
+            <h4>{{ t('amxAdmins', 'VIEW_SERVERS_TITLE') }}</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>{{ t('amxAdmins', 'ATTRIBUTE_SERVER_NAME') }}</th>
+                        <th>{{ t('amxAdmins', 'ATTRIBUTE_ACCESS') }}</th>
+                        <th>{{ t('amxAdmins', 'ATTRIBUTE_STATIC_BANTIME') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for serverLink in servers %}
+                        <tr>
+                            <td>{{ serverLink.server.hostname }} ({{ serverLink.server.address }})</td>
+                            <td>
+                                <ul>
+                                    {% for flag in serverLink.viewAccessFlags %}
+                                        <li>{{ flag }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                {{ app.formatter.asBoolean(serverLink.use_static_bantime) }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

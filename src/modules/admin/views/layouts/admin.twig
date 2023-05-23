@@ -1,0 +1,172 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('lo/modules/noty/Wrapper') }}
+{{ use('app/widgets/loading/Loading') }}
+{{ void(this.beginPage()) }}
+<!DOCTYPE html>
+<html lang="{{ app.language }}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset={{ app.charset }}">
+    <title>
+        {{ app.name }}{% if this.title %} - {{ this.title }}{% endif %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{ void(this.registerCsrfMetaTags()) }}
+    {{ void(this.head()) }}
+</head>
+
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary layout-fixed">
+{{ void(this.beginBody()) }}
+    <div class="app-wrapper">
+        <nav class="app-header navbar navbar-expand bg-body">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"><i class="fa-solid fa-bars"></i></a>
+                    </li>
+                </ul>
+                {{ breadcrumbs_widget({
+                    links: this.breadcrumbs,
+                    options: {
+                        class: 'breadcrumb mb-0'
+                    },
+                }) }}
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <button
+                          class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center"
+                          id="bd-theme"
+                          type="button"
+                          aria-expanded="false"
+                          data-bs-toggle="dropdown"
+                          data-bs-display="static"
+                        >
+                          <span class="theme-icon-active">
+                            <i class="my-1"></i>
+                          </span>
+                        </button>
+                        <ul
+                          class="dropdown-menu dropdown-menu-end"
+                          aria-labelledby="bd-theme"
+                          style="--bs-dropdown-min-width: 8rem;">
+                            <li>
+                                <button
+                                  type="button"
+                                  class="dropdown-item d-flex align-items-center active"
+                                  data-bs-theme-value="light">
+                                    <i class="fa-regular fa-sun me-2"></i>
+                                    {{ t('admin/main', 'DEFAULT_THEME_MODE_LITE') }}
+                                    <i class="fa-solid fa-check ms-auto d-none"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                  type="button"
+                                  class="dropdown-item d-flex align-items-center"
+                                  data-bs-theme-value="dark"
+                                >
+                                    <i class="fa-solid fa-moon me-2"></i>
+                                    {{ t('admin/main', 'DEFAULT_THEME_MODE_DARK') }}
+                                    <i class="fa-solid fa-check ms-auto d-none"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                  type="button"
+                                  class="dropdown-item d-flex align-items-center"
+                                  data-bs-theme-value="auto"
+                                >
+                                    <i class="fa-solid fa-adjust me-2"
+                                    ></i>
+                                    {{ t('admin/main', 'DEFAULT_THEME_MODE_AUTO') }}
+                                    <i class="fa-solid fa-check ms-auto d-none"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown user-menu">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img src="{{ app.user.avatar() }}" class="user-image rounded-circle shadow" alt="User Image">
+                            <span class="d-none d-md-inline">{{ app.user.name }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                            <!-- User image -->
+                            <li class="user-header text-bg-primary">
+                                <img src="{{ app.user.avatar() }}" class="rounded-circle shadow" alt="User Image">
+                                <p>
+                                    {{ app.user.name }}
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <a href="{{ path(
+                                    ['/admin/bans/index'],
+                                    {"BansSearch[admin_nick]": app.user.identity.username}
+                                ) }}">{{ t('admin/mainMenu', 'MY_BANS') }}</a>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <a href="{{ path(['/admin/profile/index']) }}" class="btn btn-default btn-flat">{{ t('admin/mainMenu', 'PROFILE') }}</a>
+                                <a
+                                  href="{{ path(['/auth/logout']) }}"
+                                  data-method="post"
+                                  class="btn btn-default btn-flat float-end">{{ t('admin/mainMenu', 'LOGOUT') }}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+            <div class="sidebar-brand">
+                <a href="{{ path(['/default/index']) }}" class="brand-link">
+                    <span class="brand-text fw-light">{{ app.name }}</span>
+                </a>
+            </div>
+            <!-- Sidebar -->
+            <div class="sidebar-wrapper">
+                <nav class="mt-2">
+                    <!-- Sidebar Menu -->
+                    {{ nav_widget({
+                        encodeLabels: false,
+                        options: {
+                            class: 'nav sidebar-menu flex-column',
+                            'data-lte-toggle': 'treeview',
+                            'data-accordion': 'false',
+                        },
+
+                        items: app.appParams.adminMenu()
+                    }) }}
+                </nav>
+            </div>
+        </aside>
+        <main class="app-main">
+            <div class="app-content">
+                <div class="container-fluid">
+                    {{ this.blocks['contentHeader'] | raw }}
+                    {{ content | raw }}
+                </div>
+            </div>
+        </main>
+        <footer class="app-footer">
+            <div class="float-end">
+                <strong>Copyright &copy; 2017,2022-2023 <a href="https://craft-soft.ru">Craft Soft team</a>.</strong> All rights reserved.
+            </div>
+        </footer>
+    </div>
+    {{ wrapper_widget({
+        layerClass: '\\lo\\modules\\noty\\layers\\Toastr',
+        layerOptions: {showTitle: false},
+        options: {
+            timeOut: 5000,
+            extendedTimeOut: 60000,
+            progressBar: true
+        },
+    }) }}
+{{ loading_widget() }}
+{{ void(this.endBody()) }}
+</body>
+</html>
+{{ void(this.endPage()) }}

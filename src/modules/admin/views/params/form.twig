@@ -1,0 +1,27 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{% extends 'base.twig' %}
+{% block content %}
+    {% if models|length %}
+        {% set form = active_form_begin({
+            id: 'params-form',
+            enableAjaxValidation: false,
+            type: 'horizontal',
+            formConfig: {
+                labelSpan: 3
+            }
+        }) %}
+        {{ form.errorSummary(models) | raw }}
+        {% for key,model in models %}
+            {{ model.getField(form, key) | raw }}
+        {% endfor %}
+        <div class="col-md-9 offset-md-3">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">{{ t('admin/params', 'FORM_SAVE_BUTTON') }}</button>
+            </div>
+        </div>
+        {{ active_form_end() }}
+    {% endif %}
+{% endblock %}
