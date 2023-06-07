@@ -23,7 +23,7 @@ class m230316_092608_create_webadmins_table extends Migration
             'id' => $this->primaryKey(),
             'username' => $this->string(32)->notNull()->comment('Логин'),
             'password' => $this->char(32)->notNull()->comment('Пароль'),
-            'level' => $this->integer(3)->unsigned()->notNull()->comment('Уровень'),
+            'level' => $this->integer(3)->unsigned()->null()->comment('Уровень'),
             'logcode' => $this->string(64)->null()->comment('ХЗ че такое. В CsBans 1 не использовалось'),
             'email' => $this->string(64)->null()->comment('E-mail'),
             'last_action' => $this->integer(11)->unsigned()->null()->comment('Последний вход'),

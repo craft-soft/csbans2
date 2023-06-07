@@ -1,0 +1,94 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+{{ use('app/modules/install/assets/InstallAsset') }}
+{{ register_install_asset() }}
+{{ this.registerCss('[data-install-success] {display: none}') }}
+{{ void(this.beginContent('@app/modules/install/views/install/base.twig')) }}
+{% set form = active_form_begin({
+    id: 'install-form',
+    type: 'horizontal',
+    enableAjaxValidation: true,
+    fieldConfig: {
+        labelSpan: 3
+    },
+    options: {
+        'data-first-step': firstStep,
+        'data-steps': steps
+    }
+}) %}
+<div class="row">
+    <div class="col-md-6">
+        <h4>{{ t('admin/system', 'SYSTEM_INFO_VARIABLES_TITLE') }}</h4>
+        <ul class="list-unstyled">
+            {% for variable in variables %}
+            <li>
+                <div class="d-flex justify-content-between">
+                    <span>{{ variable.getLabel() }}</span>
+                    <span>
+                        {% if variable.isHasError() %}
+                            <span class="text-{% if variable.isCritical() %}danger{% else %}warning{% endif %}">
+                                <strong>{{ variable.getValue() }}</strong>
+                                {% if variable.getMessage() %}
+                                    {{ variable.getMessage() }}
+                                {% endif %}
+                            </span>
+                        {% else %}
+                            {{ variable.getValue() }}
+                        {% endif %}
+                    </span>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        <h4>{{ t('admin/system', 'SYSTEM_INFO_MODULES_TITLE') }}</h4>
+        <ul class="list-unstyled">
+            {% for module in modules %}
+                <li>
+                    <div class="d-flex justify-content-between">
+                        <span>{{ module.getLabel() }}</span>
+                        <span>
+                        {% if module.isHasError() %}
+                            <i class="fa-solid fa-times text-danger"></i>
+                        {% else %}
+                            <i class="fa-solid fa-check text-success"></i>
+                        {% endif %}
+                    </span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h4>{{ t('install', 'VIEW_DB_TITLE') }}</h4>
+        {{ form.field(model, 'dbHost').textInput({disabled: not canInstall}) | raw }}
+        {{ form.field(model, 'dbPort').input('number', {disabled: not canInstall}) | raw }}
+        {{ form.field(model, 'dbUser').textInput({disabled: not canInstall}) | raw }}
+        {{ form.field(model, 'dbPassword').passwordInput({disabled: not canInstall}) | raw }}
+        {{ form.field(model, 'dbName').textInput({disabled: not canInstall}) | raw }}
+        {{ form.field(model, 'dbPrefix').textInput({disabled: not canInstall}) | raw }}
+        <h4>{{ t('install', 'VIEW_ADMIN_TITLE') }}</h4>
+        {{ form.field(model, 'adminName').textInput({disabled: not canInstall}) | raw }}
+        {{ form.field(model, 'adminEmail').textInput({disabled: not canInstall}) | raw }}
+        {{ form.field(model, 'adminPassword').passwordInput({disabled: not canInstall}) | raw }}
+        <ul data-progress-block></ul>
+        <div data-install-success>
+            {{ t('install', 'INSTALL_DONE') }}
+            <a href="{{ path(['/']) }}" class="text-success">{{ t('install', 'GO_HOME_LINK') }}</a>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    {%  if canInstall %}
+    <button type="submit" class="btn btn-primary" id="submitButton">{{ t('install', 'FORM_SAVE_BUTTON') }}</button>
+    {% else %}
+    <span class="text-danger">
+        {{ t('install', 'INSTALL_CAN_NOT_CONTINUE') }}
+    </span>
+    {% endif %}
+</div>
+
+{{ active_form_end() }}
+{{ this.endContent() }}

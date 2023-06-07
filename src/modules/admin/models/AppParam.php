@@ -88,6 +88,12 @@ class AppParam extends \app\models\AppParam
         parent::afterFind();
         $this->valueField = $this->getValue();
         if ($this->dropdown_options) {
+            if (is_scalar($this->dropdown_options)) {
+                $this->dropdown_options = json_decode($this->dropdown_options, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    $this->dropdown_options = [];
+                }
+            }
             if (!empty($this->dropdown_options['callable'])) {
                 $class = $this->dropdown_options['callable']['method'][0];
                 if (!class_exists($class)) {
@@ -120,6 +126,7 @@ class AppParam extends \app\models\AppParam
     public function getField(ActiveForm $form, int $index)
     {
         $field = $form->field($this, "[$index]valueField");
+        $field->label(\Yii::t('admin/params', $this->label));
         switch((int)$this->type) {
             case self::TYPE_LABEL:
                 return Html::tag('h3', \Yii::t('admin/params', $this->label));
@@ -141,6 +148,9 @@ class AppParam extends \app\models\AppParam
                         'preset' => 'full',
                         'height' => 400,
                         'removeButtons' => 'Subscript,Superscript,Flash,PageBreak,Iframe',
+                    ],
+                    'options' => [
+                        'rows' => 10
                     ]
                 ]);
                 break;
@@ -150,7 +160,6 @@ class AppParam extends \app\models\AppParam
             default:
                 $field->textInput();
         }
-        $field->label(\Yii::t('admin/params', $this->label));
         if ($this->description) {
             $field->hint(\Yii::t('admin/params', $this->description));
         }

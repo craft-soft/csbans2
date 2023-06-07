@@ -10,6 +10,7 @@
         firstStep = null;
         currentStep = null;
         submitButton = null;
+        submitButtonText = null;
         messagesElement = null;
         currentMessageElement = null;
         constructor(form) {
@@ -18,6 +19,7 @@
             this.firstStep = form.data('first-step');
             this.messagesElement = form.find('[data-progress-block]');
             this.submitButton = form.find('button[type="submit"]');
+            this.submitButtonText = this.submitButton.text();
         }
         start() {
             this.currentStep = this.firstStep;
@@ -25,6 +27,10 @@
             this.submitButton.append('<i class="fa-solid fa-spinner fa-spin ms-1"></i>');
             this.submitButton.attr('disabled', true);
             this.send();
+        };
+        resetSubmitButton() {
+            this.submitButton.removeAttr('disabled');
+            this.submitButton.text(this.submitButtonText);
         };
         beforeSend() {
             this.currentMessageElement = $('<li>');
@@ -37,10 +43,11 @@
             this.beforeSend();
             $.ajax({
                 type: 'POST',
-                url: UrlManager.createUrl('/install/default/install', { step: this.currentStep }),
+                url: UrlManager.createUrl('/install/install/index', { step: this.currentStep }),
                 data: this.form.serialize(),
                 showNoty: false,
-            }).then((response) => {
+            }).then((response, xhr) => {
+                console.log(xhr);
                 if (!response) {
                     this.setError('Something wrong');
                     return;
@@ -66,6 +73,7 @@
         };
         setError(error) {
             this.currentMessageElement.find('span').addClass('text-danger').text(error);
+            this.resetSubmitButton();
         };
         done() {
             $('[data-install-success]').show();

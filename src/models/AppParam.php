@@ -114,7 +114,9 @@ class AppParam extends ActiveRecord implements ParamsModelInterface
         $field = self::FIELDS_MAP[(int)$this->type] ?? 'value_string';
         $this->{$field} = $value;
         $this->updated_at = time();
-        $this->updated_by = \Yii::$app->getUser()->getId();
+        if (!\Yii::$app->getUser()->getIsGuest()) {
+            $this->updated_by = \Yii::$app->getUser()->getId();
+        }
         $this->save(false);
     }
 

@@ -31,7 +31,11 @@ return [
     'STEP_MIGRATIONS' => 'Создание таблиц БД',
     'STEP_PERMISSIONS' => 'Генерация разрешений админов',
     'STEP_ADMIN' => 'Создание администратора',
-    'STEP_DOWNLOAD_IP_GEO_DATA' => 'Загрузка базы IP адресов',
+    'STEP_DOWNLOAD_DB_IP_CITY' => 'Загрузка базы IP адресов (db-ip)',
+    'STEP_DOWNLOAD_GEOLITE_CITY' => 'Загрузка базы IP адресов (GeoLite)',
+    'STEP_DOWNLOAD_IPLOCATION' => 'Загрузка базы IP адресов (IpLocation)',
     'INSTALL_DONE' => 'Установка завершена',
     'GO_HOME_LINK' => 'Использовать CS:Bans 2',
+    'CONTINUE_BUTTON' => 'Далее',
+    'INSTALL_CAN_NOT_CONTINUE' => 'Установка невозможна из-за несовместимости системы. Проверьте и устраните ошибки',
 ];

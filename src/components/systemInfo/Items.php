@@ -37,4 +37,14 @@ class Items
         }
         return false;
     }
+
+    public function isCritical(): bool
+    {
+        foreach ($this->items as $item) {
+            if ($item->isHasError() && $item->isCritical()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -1,0 +1,24 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ use('kartik/form/ActiveForm') }}
+{{ void(this.beginContent('@app/modules/install/views/install/base.twig')) }}
+<div class="row">
+    <div class="col-6 offset-3">
+        {% set form = active_form_begin({
+            id: 'language-form',
+            type: 'horizontal',
+            enableAjaxValidation: true,
+            fieldConfig: {
+                labelSpan: 3
+            },
+        }) %}
+            {{ form.field(model, 'language').dropdownList(app.appParams.languages()) | raw }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">{{ t('install', 'CONTINUE_BUTTON') }}</button>
+            </div>
+        {{ active_form_end() }}
+    </div>
+</div>
+{{ void(this.endContent()) }}

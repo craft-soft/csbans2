@@ -27,12 +27,12 @@ class m230322_134004_insert_into_configs extends Migration
                 'block' => AppParams::BLOCK_VIEW,
                 'key' => AppParams::KEY_VIEW_SITE_THEME,
                 'value_string' => 'default',
-                'dropdown_options' => [
+                'dropdown_options' => json_encode([
                     'callable' => [
                         'method' => [\app\components\theme\Factory::class, 'getList'],
                         'params' => [true]
                     ]
-                ],
+                ]),
                 'sort' => 90,
                 'updated_at' => $time,
             ],
@@ -42,11 +42,11 @@ class m230322_134004_insert_into_configs extends Migration
                 'block' => AppParams::BLOCK_VIEW,
                 'key' => AppParams::KEY_VIEW_START_PAGE,
                 'value_string' => '/',
-                'dropdown_options' => [
+                'dropdown_options' => json_encode([
                     'callable' => [
                         'method' => [\app\models\Link::class, 'getList'],
                     ]
-                ],
+                ]),
                 'sort' => 80,
                 'updated_at' => $time,
             ],
@@ -56,7 +56,7 @@ class m230322_134004_insert_into_configs extends Migration
                 'block' => AppParams::BLOCK_FILES,
                 'key' => AppParams::KEY_FILES_DEMO_UPLOAD_ENABLED,
                 'value_string' => AppParams::VALUE_ALL,
-                'dropdown_options' => AppParams::VALUES,
+                'dropdown_options' => json_encode(AppParams::VALUES),
                 'sort' => 90,
                 'updated_at' => $time,
             ],
@@ -130,7 +130,7 @@ class m230322_134004_insert_into_configs extends Migration
                 'key' => AppParams::KEY_BANS_COMMENTS,
                 'block' => AppParams::BLOCK_BANS,
                 'value_string' => AppParams::VALUE_ALL,
-                'dropdown_options' => AppParams::VALUES,
+                'dropdown_options' => json_encode(AppParams::VALUES),
                 'sort' => 40,
                 'updated_at' => $time,
             ],
@@ -180,11 +180,11 @@ class m230322_134004_insert_into_configs extends Migration
                 'label' => 'IP_DATA_PROVIDER',
                 'type' => AppParam::TYPE_DROPDOWN,
                 'key' => AppParams::KEY_IP_DATA_PROVIDER,
-                'dropdown_options' => [
+                'dropdown_options' => json_encode([
                     'callable' => [
                         'method' => [\app\components\ipGeo\IpGeo::class, 'allProviders']
                     ]
-                ],
+                ]),
                 'value_string' => 1,
                 'sort' => 80,
                 'updated_at' => $time,
@@ -202,11 +202,11 @@ class m230322_134004_insert_into_configs extends Migration
                 'type' => AppParam::TYPE_DROPDOWN,
                 'key' => AppParams::KEY_SERVER_QUERY_PROVIDER,
                 'block' => AppParams::BLOCK_SERVER,
-                'dropdown_options' => [
+                'dropdown_options' => json_encode([
                     'callable' => [
                         'method' => [OnlineServerInfo::class, 'allProviders']
                     ]
-                ],
+                ]),
                 'value_string' => 1,
                 'sort' => 100,
                 'updated_at' => $time,
@@ -252,11 +252,11 @@ class m230322_134004_insert_into_configs extends Migration
                 'label' => 'MAIN_SITE_LANGUAGE',
                 'type' => AppParam::TYPE_DROPDOWN,
                 'key' => AppParams::KEY_MAIN_SITE_LANGUAGE,
-                'dropdown_options' => [
+                'dropdown_options' => json_encode([
                     'callable' => [
                         'method' => [AppParams::class, 'languages'],
                     ]
-                ],
+                ]),
                 'value_string' => 'ru',
                 'sort' => 85,
                 'updated_at' => $time,

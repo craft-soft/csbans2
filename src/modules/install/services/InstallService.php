@@ -31,7 +31,9 @@ class InstallService
     public const STEP_MIGRATIONS = 'migrations';
     public const STEP_PERMISSIONS = 'permissions';
     public const STEP_ADMIN = 'admin';
-    public const STEP_DOWNLOAD_IP_GEO_DATA = 'ipgeo_data';
+    public const STEP_DOWNLOAD_DB_IP_CITY = 'db-ip-city';
+    public const STEP_DOWNLOAD_GEOLITE_CITY = 'geolite-city';
+    public const STEP_DOWNLOAD_IPLOCATION = 'iplocation';
 
     public const STEPS = [
         self::STEP_CONFIG => [
@@ -50,8 +52,14 @@ class InstallService
             'method' => 'addAdmin',
             'checkMethod' => 'checkHasPermissions'
         ],
-        self::STEP_DOWNLOAD_IP_GEO_DATA => [
-            'method' => 'downloadIpGeoData',
+        self::STEP_DOWNLOAD_DB_IP_CITY => [
+            'method' => 'downloadDbIpCity',
+        ],
+        self::STEP_DOWNLOAD_GEOLITE_CITY => [
+            'method' => 'downloadGeoliteCity',
+        ],
+        self::STEP_DOWNLOAD_IPLOCATION => [
+            'method' => 'downloadIplocation',
         ],
     ];
 
@@ -59,12 +67,19 @@ class InstallService
 
     private bool $done = false;
 
+    private string $baseUrl;
+    private ?string $language;
+
     /**
      * @param Install $model
+     * @param string $baseUrl
+     * @param ?string $language
      */
-    public function __construct(Install $model)
+    public function __construct(Install $model, string $baseUrl, ?string $language = null)
     {
         $this->model = $model;
+        $this->baseUrl = $baseUrl;
+        $this->language = $language;
     }
 
     public function runStep(string $step): ?string
@@ -237,7 +252,7 @@ class InstallService
             $response = $console->handleRequest($request);
             return $response->exitStatus === ExitCode::OK;
         } finally {
-            ob_end_clean();
+            $r = ob_get_clean();
             \Yii::$app = $oldApp;
         }
     }
@@ -249,6 +264,11 @@ class InstallService
     {
         if (!$this->runConsole('migrate')) {
             throw new MigrationsException();
+        }
+        \Yii::$app->appParams->bootstrap(\Yii::$app);
+        \Yii::$app->appParams->site_baseurl = $this->baseUrl;
+        if ($this->language) {
+            \Yii::$app->appParams->site_language = $this->language;
         }
         return self::STEP_PERMISSIONS;
     }
@@ -297,17 +317,44 @@ class InstallService
                     throw new \ErrorException();
                 }
             }
-            return self::STEP_DOWNLOAD_IP_GEO_DATA;
+            return self::STEP_DOWNLOAD_DB_IP_CITY;
         } catch (\Throwable $e) {
             throw new AddAdminException();
         }
     }
 
-    private function downloadIpGeoData()
+    /**
+     * @noinspection PhpUnusedPrivateMethodInspection
+     */
+    private function downloadDbIpCity(): string
+    {
+        $this->downloadIpDb('dbip-city-lite.mmdb');
+        return self::STEP_DOWNLOAD_GEOLITE_CITY;
+    }
+
+    /**
+     * @noinspection PhpUnusedPrivateMethodInspection
+     */
+    private function downloadGeoliteCity(): string
+    {
+        $this->downloadIpDb('GeoLite2-City.mmdb');
+        return self::STEP_DOWNLOAD_IPLOCATION;
+    }
+
+    /**
+     * @noinspection PhpUnusedPrivateMethodInspection
+     */
+    private function downloadIplocation()
+    {
+        $this->downloadIpDb('IP2LOCATION-LITE-DB11.BIN');
+        $this->done = true;
+    }
+
+    private function downloadIpDb(string $filename)
     {
         $dataDir = \Yii::getAlias('@app/components/ipGeo/providers/data');
-        $content = file_get_contents('https://craft-soft.ru/upload/csbans2/data/ipgeoData.zip');
-        $tmpFile = \Yii::getAlias('@runtime/ipgeoData.zip');
+        $content = file_get_contents("https://craft-soft.ru/upload/csbans2/data/$filename.zip");
+        $tmpFile = \Yii::getAlias("@runtime/$filename.zip");
         if ($content) {
             file_put_contents($tmpFile, $content);
             if (is_file($tmpFile)) {
@@ -319,7 +366,6 @@ class InstallService
                 }
             }
         }
-        $this->done = true;
     }
 
     /**

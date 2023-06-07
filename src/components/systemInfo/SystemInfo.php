@@ -83,9 +83,8 @@ class SystemInfo
         return null;
     }
 
-    public function systemVariables(): Items
+    public function systemVariables(bool $withoutDbVersion = false): Items
     {
-        $mysqlVersion = Yii::$app->getDb()->getServerVersion();
         $displayErrors = (bool)ini_get('display_errors');
         $appPhpVersion = $this->appPhpVersion();
         $variables = new Items();
@@ -93,20 +92,27 @@ class SystemInfo
             Yii::t('app', 'SYSTEM_PHP_VERSION'),
             PHP_VERSION,
             version_compare(PHP_VERSION, $appPhpVersion, '<'),
+            true,
             Yii::t('app', 'SYSTEM_VERSION_NOT_SUPPORTED', ['version' => $appPhpVersion])
         ));
-        $variables->addItem(new Item(
-            Yii::t('app', 'SYSTEM_MYSQL_SERVER'),
-            $mysqlVersion,
-            version_compare($mysqlVersion, '5.7', '<'),
-            Yii::t('app', 'SYSTEM_VERSION_NOT_SUPPORTED', ['version' => '5.7'])
-        ));
-        $variables->addItem(
-            new Item(
-                Yii::t('app', 'SYSTEM_DB_SIZE'),
-                $this->formatter->asShortSize($this->getDbSize())
-            )
-        );
+        if (!$withoutDbVersion) {
+            $mysqlVersion = Yii::$app->getDb()->getServerVersion();
+            $variables->addItem(
+                new Item(
+                    Yii::t('app', 'SYSTEM_MYSQL_SERVER'),
+                    $mysqlVersion,
+                    version_compare($mysqlVersion, '5.7', '<'),
+                    true,
+                    Yii::t('app', 'SYSTEM_VERSION_NOT_SUPPORTED', ['version' => '5.7'])
+                )
+            );
+            $variables->addItem(
+                new Item(
+                    Yii::t('app', 'SYSTEM_DB_SIZE'),
+                    $this->formatter->asShortSize($this->getDbSize())
+                )
+            );
+        }
         $variables->addItem(new Item( Yii::t('app', 'SYSTEM_WEB_SERVER'), $_SERVER['SERVER_SOFTWARE'] ?? null));
         $variables->addItem(new Item(
             'display_errors',
@@ -138,7 +144,12 @@ class SystemInfo
             if (str_starts_with($module, 'ext-')) {
                 $moduleName = str_replace('ext-', '', $module);
                 $value = extension_loaded($moduleName);
-                $items->addItem(new Item($moduleName, $this->formatter->asBoolean($value), !$value));
+                $items->addItem(new Item(
+                    $moduleName,
+                    $this->formatter->asBoolean($value),
+                    !$value,
+                    !$value,
+                ));
             }
         }
         return $items;
