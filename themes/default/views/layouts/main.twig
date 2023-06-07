@@ -91,6 +91,7 @@ License: GNU LGPL 2 only, see file LICENSE
             </div>
         </div>
     </footer>
+    {%  if not this.params['withoutNoty'] %}
     {{ wrapper_widget({
         layerClass: '\\lo\\modules\\noty\\layers\\Toastr',
         layerOptions: {showTitle: false},
@@ -100,6 +101,7 @@ License: GNU LGPL 2 only, see file LICENSE
             progressBar: true
         },
     }) }}
+    {% endif %}
 </body>
 {{ void(this.endBody()) }}
 </html>

@@ -24,8 +24,8 @@ class m230322_133534_create_links_table extends Migration
             'sort' => $this->smallInteger(2)->notNull()->defaultValue(1),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
-            'created_by' => $this->integer()->notNull(),
-            'updated_by' => $this->integer()->notNull(),
+            'created_by' => $this->integer()->null(),
+            'updated_by' => $this->integer()->null(),
         ]);
         $time = time();
         $columns = [

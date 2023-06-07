@@ -19,18 +19,28 @@ class Item
 
     private bool $hasError;
 
+    private bool $critical;
+
     /**
      * @param string $label
      * @param mixed $value
      * @param bool $hasError
+     * @param bool $critical
      * @param string|null $errorMessage
      */
-    public function __construct(string $label, $value, bool $hasError = false, ?string $errorMessage = null)
+    public function __construct(
+        string $label,
+        $value,
+        bool $hasError = false,
+        bool $critical = false,
+        ?string $errorMessage = null
+    )
     {
         $this->label = $label;
         $this->value = $value;
         $this->errorMessage = $errorMessage;
         $this->hasError = $hasError;
+        $this->critical = $critical;
     }
 
     /**
@@ -55,6 +65,11 @@ class Item
     public function isHasError(): bool
     {
         return $this->hasError;
+    }
+
+    public function isCritical(): bool
+    {
+        return $this->critical;
     }
 
     /**

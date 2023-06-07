@@ -1,6 +1,6 @@
 {
     "name": "craftsoft/csbans2",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "description": "Bans and administrators management system on servers running half-life 1 engine",
     "keywords": ["csbans2", "half-life", "amxbans", "counter strike", "cs 1.6"],
     "homepage": "https://github.com/craft-soft/csbans2",
@@ -15,6 +15,7 @@
         "ext-gd": "*",
         "ext-gmp": "*",
         "ext-json": "*",
+        "ext-pdo": "*",
         "ext-zip": "*",
         "austinb/gameq": "^3.1",
         "bower-asset/toastr": "^2.1",

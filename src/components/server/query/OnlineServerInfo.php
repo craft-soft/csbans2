@@ -34,7 +34,7 @@ class OnlineServerInfo
     {
         return [
             self::PROVIDER_GAMEQ => 'GameQ',
-            self::PROVIDER_SOURCE_QUERY => 'SourceQuery by xPaw',
+//            self::PROVIDER_SOURCE_QUERY => 'SourceQuery by xPaw',
         ];
     }
 

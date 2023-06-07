@@ -49,7 +49,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
         /** @var AppParams $params */
         $params = $application->get('appParams');
         if (!$params->isInstalled()) {
-            $application->catchAll = ['install/default/install'];
+            $application->catchAll = ['install/install/index'];
         }
     }
 }

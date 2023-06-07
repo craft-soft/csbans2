@@ -11,9 +11,9 @@ include __DIR__ . '/bootstrap.php';
 $config = [
     'basePath' => dirname(__DIR__, 2) . '/src',
     'vendorPath' => dirname(__DIR__, 2) . '/vendor',
-    'bootstrap' => ['log', 'appParams', 'install'],
-    'language' => 'ru',
-    'sourceLanguage' => 'ru',
+    'bootstrap' => ['log', 'appParams'],
+    'language' => 'en',
+    'sourceLanguage' => 'en',
     'name' => 'CS:Bans 2',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',

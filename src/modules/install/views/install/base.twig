@@ -1,0 +1,16 @@
+{#
+Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+License: GNU LGPL 2 only, see file LICENSE
+#}
+{{ pjax_begin() }}
+<div class="install-form" >
+    <div class="page">
+        <div class="page-header">
+            <h3>{{ t('install', 'VIEW_TITLE') }}</h3>
+        </div>
+        <div class="page-body">
+            {{ content | raw }}
+        </div>
+    </div>
+</div>
+{{ pjax_end() }}

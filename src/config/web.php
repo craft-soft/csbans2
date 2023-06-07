@@ -10,6 +10,7 @@ $config = [
     'bootstrap' => [
         'themeFactory',
         'jsUrlManager',
+        'install',
         \app\bootstrap\RemoveSpaces::class,
         \app\bootstrap\BeforeRequestDispatcher::class,
         \app\bootstrap\writeLog\WriteLogDispatcher::class,
