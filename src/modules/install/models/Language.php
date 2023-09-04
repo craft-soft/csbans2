@@ -17,4 +17,11 @@ class Language extends Model
             ['language', 'in', 'range' => array_keys(\Yii::$app->appParams->languages())],
         ];
     }
+
+    public function attributeLabels(): array
+    {
+        return [
+            'language' => \Yii::t('install', 'ATTRIBUTE_LANGUAGE')
+        ];
+    }
 }

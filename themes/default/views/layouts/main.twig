@@ -42,6 +42,7 @@ License: GNU LGPL 2 only, see file LICENSE
                     }) }}
                 </div>
             </div>
+            {% if app.appParams.isInstalled() %}
             <div class="text-end">
                 <div class="dropdown">
                     {% if app.user.isGuest %}
@@ -69,6 +70,7 @@ License: GNU LGPL 2 only, see file LICENSE
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
             <div class="main-site-name">
                 {{ app.appParams.view_main_banner | as_html | raw }}
             </div>
