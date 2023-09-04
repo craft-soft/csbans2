@@ -8,20 +8,18 @@ declare(strict_types=1);
 
 namespace app\modules\install\services;
 
+use yii\db\Connection;
 use app\models\Webadmin;
+use yii\helpers\VarDumper;
+use yii\helpers\FileHelper;
+use yii\base\ErrorException;
 use app\modules\install\models\Install;
-use app\modules\install\services\exceptions\{InvalidStepException, MigrationsException};
-use app\modules\install\services\exceptions\AddAdminException;
-use app\modules\install\services\exceptions\CreateConfigException;
-use app\modules\install\services\exceptions\DbConnectException;
-use app\modules\install\services\exceptions\GeneratePermissionsException;
-use app\modules\install\services\exceptions\PermissionsException;
 use app\rbac\{Permissions, RbacService};
 use yii\console\{Application, ExitCode, Request};
-use yii\base\ErrorException;
-use yii\db\Connection;
-use yii\helpers\FileHelper;
-use yii\helpers\VarDumper;
+use app\modules\install\services\exceptions\{
+    AddAdminException, CreateConfigException, DbConnectException,
+    InvalidStepException, MigrationsException, GeneratePermissionsException, PermissionsException,
+};
 
 class InstallService
 {

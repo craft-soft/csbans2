@@ -14,6 +14,7 @@ return [
     'ATTRIBUTE_ADMIN_NAME' => 'Логин',
     'ATTRIBUTE_ADMIN_PASSWORD' => 'Пароль',
     'ATTRIBUTE_ADMIN_EMAIL' => 'E-mail',
+    'ATTRIBUTE_LANGUAGE' => 'Язык системы',
     'VALIDATE_ADMIN_NAME_INVALID' => 'Разрешены только буквы латинского алфавита, цифры и символ "_"',
     'ERROR_CONNECTION' => 'Неверные учетные данные базы данных (не удалось подключиться)',
     'ERROR_PERMISSIONS' => 'Нет доступа к необходимым директориям: {directories}',

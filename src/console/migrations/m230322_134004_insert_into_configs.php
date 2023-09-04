@@ -276,7 +276,7 @@ class m230322_134004_insert_into_configs extends Migration
                 'key' => AppParams::KEY_VIEW_VIEW_INDEX_PAGE_HTML,
                 'block' => AppParams::BLOCK_VIEW,
                 'value_text' => <<<HTML
-<div class="p-5 mb-4 bg-body-tertiary rounded-3 bg-dark">
+<div class="p-5 mb-4 rounded-3 bg-dark">
   <div class="container-fluid py-5">
     <h1 class="display-5 fw-bold">{{ t('index', 'JUMBOTRON_TITLE') }}</h1>
     <p class="col-md-8 fs-4">{{ t('index', 'JUMBOTRON_TEXT') }}</p>

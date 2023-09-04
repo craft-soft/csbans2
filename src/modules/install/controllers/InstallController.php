@@ -29,6 +29,10 @@ class InstallController extends Controller
 
     public function actionIndex(AppParams $appParams, Request $request, SystemInfo $systemInfo, Session $session)
     {
+        $langFromSession = $session->get(self::SESSION_LANG_KEY);
+        if ($langFromSession) {
+            \Yii::$app->language = $langFromSession;
+        }
         $step = $request->get('step');
         if ($appParams->isInstalled() && !$step && !$request->getIsAjax()) {
             throw new NotFoundHttpException();

@@ -14,6 +14,7 @@ return [
     'ATTRIBUTE_ADMIN_NAME' => 'Login',
     'ATTRIBUTE_ADMIN_PASSWORD' => 'Password',
     'ATTRIBUTE_ADMIN_EMAIL' => 'E-mail',
+    'ATTRIBUTE_LANGUAGE' => 'Language',
     'VALIDATE_ADMIN_NAME_INVALID' => 'Only letters of the Latin alphabet, numbers and the symbol "_" are allowed',
     'ERROR_CONNECTION' => 'Invalid database credentials (failed to connect)',
     'ERROR_PERMISSIONS' => 'No access to required directories: {directories}',

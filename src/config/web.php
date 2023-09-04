@@ -16,6 +16,20 @@ $config = [
         \app\bootstrap\writeLog\WriteLogDispatcher::class,
     ],
     'components' => [
+        'request' => function() {
+            $keyFile = Yii::getAlias('@app/config/cookieValidationKey.txt');
+            if (!is_file($keyFile)) {
+                touch($keyFile);
+            }
+            $key = trim(file_get_contents($keyFile));
+            if (!$key) {
+                $key = Yii::$app->getSecurity()->generateRandomString();
+                file_put_contents($keyFile, $key);
+            }
+            return new \yii\web\Request([
+                'cookieValidationKey' => $key
+            ]);
+        },
         'assetManager' => [
             'class' => \yii\web\AssetManager::class,
             'linkAssets' => !YII_ENV_PROD,
