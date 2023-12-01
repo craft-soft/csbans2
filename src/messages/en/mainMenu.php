@@ -4,11 +4,11 @@
  * License: GNU LGPL 2 only, see file LICENSE
  */
 return [
-    'MAIN' => 'Главная',
-    'BANS' => 'Баны',
-    'ADMINS' => 'Админы',
-    'SERVERS' => 'Серверы',
-    'LOGIN' => 'Войти',
-    'ADMINCENTER' => 'Админцентр',
-    'LOGOUT' => 'Выйти',
+    'MAIN' => 'Home',
+    'BANS' => 'Bans',
+    'ADMINS' => 'Admins',
+    'SERVERS' => 'Servers',
+    'LOGIN' => 'Login',
+    'ADMINCENTER' => 'Admin area',
+    'LOGOUT' => 'Logout',
 ];

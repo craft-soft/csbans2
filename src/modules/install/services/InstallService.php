@@ -263,6 +263,7 @@ class InstallService
         if (!$this->runConsole('migrate')) {
             throw new MigrationsException();
         }
+        \Yii::$app->appParams->setForceCheckDb(true);
         \Yii::$app->appParams->bootstrap(\Yii::$app);
         \Yii::$app->appParams->site_baseurl = $this->baseUrl;
         if ($this->language) {

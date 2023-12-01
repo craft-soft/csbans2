@@ -117,6 +117,8 @@ class AppParams implements BootstrapInterface
 
     private ?Application $app = null;
 
+    private bool $forceCheckDb = false;
+
     /**
      * @var ParamsModelInterface[]
      */
@@ -152,7 +154,7 @@ class AppParams implements BootstrapInterface
     private ?bool $isInstalled = null;
     public function isInstalled(): bool
     {
-        if ($this->isInstalled === null) {
+        if ($this->isInstalled === null || $this->forceCheckDb) {
             try {
                 if (!$this->app->getDb()) {
                     return false;
@@ -367,5 +369,10 @@ class AppParams implements BootstrapInterface
         foreach ($links as $link) {
             $this->adminLinks[] = $link;
         }
+    }
+
+    public function setForceCheckDb(bool $forceCheckDb): void
+    {
+        $this->forceCheckDb = $forceCheckDb;
     }
 }
