@@ -1,0 +1,60 @@
+<?php
+/*
+ * Copyright (c) 2017, 2022-2023 Alex Urich <urichalex@mail.ru>
+ * License: GNU LGPL 2 only, see file LICENSE
+ */
+return [
+    'BREADCRUMBS_INDEX' => 'Settings',
+    'PAGE_TITLE_INDEX' => 'Settings',
+    'PARAMS_NOT_SAVED' => 'Save Error',
+    'PARAMS_SAVED' => 'Parameter Saved',
+    'VALIDATE_WRONG_DROPDOWN_VALUE' => 'Incorrect Value',
+    'INDEX_TITLE' => 'System Settings',
+
+    'MAIN_SITE_NAME' => 'Site Name',
+    'MAIN_SITE_BASE_URL' => 'Site Base URL',
+    'MAIN_SITE_LANGUAGE' => 'Site Language',
+    'SITE_THEME' => 'Theme',
+    'START_PAGE' => 'Home Page',
+    'VIEW_FOOTER_LEFT' => 'Footer Text Left',
+    'VIEW_FOOTER_RIGHT' => 'Footer Text Right',
+    'VIEW_MAIN_BANNER' => 'Main Page Banner',
+    'DEMO_UPLOAD_ENABLED' => 'Enable Demo Upload',
+    'DEMO_FILE_TYPES' => 'Allowed Demo File Types (comma-separated)',
+    'BANS_PER_PAGE' => 'Bans Per Page',
+    'SITE_BAN_PERIOD' => 'Site Ban Time',
+    'SITE_BAN_REASON' => 'Site Ban Reason',
+    'MAX_OFFENCES' => 'Maximum Offences',
+    'MAX_OFFENCES_REASON' => 'Reason for Maximum Offences',
+    'HIDE_OLD_BANS' => 'Hide Expired Bans',
+    'COMMENTS_ENABLED' => 'Enable Comments',
+    'BANS_VIEW_COMMENTS_COUNT' => 'Display Comments Count',
+    'BANS_VIEW_FILES_COUNT' => 'Display Files Count',
+    'BANS_VIEW_KICKS_COUNT' => 'Display Kicks Count',
+    'IP_DATA_PROVIDER' => 'IP Address Data Provider',
+    'IP_VIEW_PROVIDER_CRED' => 'Display IP Address Data Provider Info',
+    'SERVER_QUERY_PROVIDER' => 'Server Data Provider',
+    'EXTERNAL_YANDEX_MAPS_LABEL' => 'Yandex Maps',
+    'EXTERNAL_YANDEX_MAPS_ENABLED' => 'Use Yandex Maps',
+    'EXTERNAL_YANDEX_API_KEY' => 'Yandex Maps API Key',
+    'EXTERNAL_YANDEX_API_KEY_DESCRIPTION' => 'Yandex requires you to use an API key. More details - https://help.flexbe.ru/api-yandex-maps/',
+    'SERVERS_DATA_INTERVAL' => 'Servers Query Interval',
+    'SERVERS_DATA_INTERVAL_DESCRIPTION' => 'Time in seconds after which servers will be polled',
+    'VIEW_MAIN_PAGE_BANNER' => 'Display Main Page Banner',
+    'VIEW_INDEX_PAGE_TOP' => 'HTML Code for Main Page Banner',
+    'BANS_MODERATE_COMMENTS' => 'Comments Pre-moderation',
+    'BANS_MODERATE_FILES' => 'Files Pre-moderation',
+
+    'VALUE_NONE' => 'None',
+    'VALUE_ALL' => 'All',
+    'VALUE_USERS' => 'Users',
+
+    'BLOCK_MAIN' => 'Main',
+    'BLOCK_VIEW' => 'Display',
+    'BLOCK_FILES' => 'Files',
+    'BLOCK_BANS' => 'Bans',
+    'BLOCK_SERVER' => 'Servers',
+    'BLOCK_EXTERNAL' => 'External Services',
+
+    'FORM_SAVE_BUTTON' => 'Save',
+];

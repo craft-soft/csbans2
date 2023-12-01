@@ -90,8 +90,6 @@ License: GNU LGPL 2 only, see file LICENSE
         <div class="ban-view__comments col-md-12">
             {{ pjax_begin({
                 id: 'banCommentsContainer',
-                formSelector: false,
-                linkSelector: false,
             }) }}
             <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <h3 class="ban-view__title">
@@ -139,8 +137,6 @@ License: GNU LGPL 2 only, see file LICENSE
         <div class="ban-view__files">
             {{ pjax_begin({
                 id: 'banFilesContainer',
-                formSelector: false,
-                linkSelector: false,
             }) }}
             <div class="d-flex justify-content-between align-items-center flex-wrap">
                 <h3 class="ban-view__title">
@@ -162,7 +158,6 @@ License: GNU LGPL 2 only, see file LICENSE
                         <th>{{ filesSort.link('file_size') | raw }}</th>
                         <th>{{ filesSort.link('down_count') | raw }}</th>
                         <th>{{ filesSort.link('comment') | raw }}</th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -170,13 +165,17 @@ License: GNU LGPL 2 only, see file LICENSE
                         <tr>
                             <td>{{ file.upload_time | as_datetime }}</td>
                             <td>{{ file.name }}</td>
-                            <td>{{ file.demo_file }}</td>
+                            <td>
+                                <a
+                                    data-download-file
+                                    href="{{ path(['file'], {id: file.id}) }}"
+                                    data-toggle="tooltip"
+                                    title="{{ t('bans', 'VIEW_FILE_DOWNLOAD') }}"
+                                    data-pjax="0">{{ file.demo_file }}</a>
+                            </td>
                             <td>{{ file.file_size | as_short_size }}</td>
                             <td>{{ file.down_count }}</td>
                             <td>{{ file.comment }}</td>
-                            <td>
-                                <a data-download-file href="{{ path(['file'], {id: file.id}) }}" data-pjax="0">{{ t('bans', 'VIEW_FILE_DOWNLOAD') }}</a>
-                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>

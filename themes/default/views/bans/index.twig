@@ -29,13 +29,13 @@ License: GNU LGPL 2 only, see file LICENSE
                 }) %}
                     <div class="input-group">
                         <select class="form-select" name="{{ Html.getInputName(searchModel, 'field') }}">
-                            <option>Тип поиска</option>
+                            <option>{{ t('bans', 'INDEX_SEARCH_TYPE') }}</option>
                             {% for field, label in searchModel.fieldsForSearch() %}
                             <option value="{{ field }}"{% if field == searchModel.field %} selected{% endif %}>{{ label }}</option>
                             {% endfor %}
                         </select>
                         <input class="form-control" name="{{ Html.getInputName(searchModel, 'query') }}" value="{{ searchModel.query }}">
-                        <button class="btn btn-secondary" type="submit">Искать</button>
+                        <button class="btn btn-secondary" type="submit">{{ t('bans', 'INDEX_SEARCH_BUTTON') }}</button>
                     </div>
                 {{ active_form_end() }}
             </div>

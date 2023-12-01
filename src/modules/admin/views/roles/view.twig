@@ -9,9 +9,9 @@ License: GNU LGPL 2 only, see file LICENSE
             <div class="d-flex align-items-center">
                 <h3 class="card-title">{{ t('admin/roles', 'VIEW_TITLE', {description: t('rbac', model.description)}) }}</h3>
                 <div class="card-tools ms-auto">
-                    <a href="{{ path('update', {id: model.id}) }}" class="btn btn-tool text-primary">{{ t('admin/roles', 'VIEW_UPDATE_LINK') }}</a>
+                    <a href="{{ path('update', {id: model.name}) }}" class="btn btn-tool text-primary">{{ t('admin/roles', 'VIEW_UPDATE_LINK') }}</a>
                     <a
-                      href="{{ path('delete', {id: model.id}) }}"
+                      href="{{ path('delete', {id: model.name}) }}"
                       data-confirm="{{ t('admin/roles', 'VIEW_DELETE_LINK_CONFIRM') }}"
                       data-method="post"
                       class="btn btn-tool text-danger">{{ t('admin/roles', 'VIEW_DELETE_LINK') }}</a>

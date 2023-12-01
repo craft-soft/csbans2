@@ -11,7 +11,7 @@ use yii\web\Controller;
 use app\rbac\Permissions;
 use yii\filters\{AccessControl, VerbFilter};
 use yii\web\{Request, Response, NotFoundHttpException};
-use app\modules\admin\models\{Comment, File, search\CommentsSearch, search\FilesSearch};
+use app\modules\admin\models\{File, search\FilesSearch};
 use yii\widgets\ActiveForm;
 
 /**
@@ -87,6 +87,10 @@ class FilesController extends Controller
 
         $this->getView()->title = Yii::t('admin/files', 'PAGE_TITLE_MODERATE');
         $this->getView()->params['breadcrumbs'] = [
+            [
+                'url' => ['index'],
+                'label' => Yii::t('admin/files', 'BREADCRUMBS_INDEX')
+            ],
             Yii::t('admin/files', 'BREADCRUMBS_MODERATE'),
         ];
 

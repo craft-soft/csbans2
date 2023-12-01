@@ -37,7 +37,7 @@ License: GNU LGPL 2 only, see file LICENSE
     {{ form.field(model, 'ban_length').dropdownList(model.banTimes()) | raw }}
     <div class="col-md-10 offset-md-2">
         <div class="form-group">
-            <button type="submit" class="btn btn-primary">{{ t('admin/webadmins', 'FORM_SAVE_BUTTON') }}</button>
+            <button type="submit" class="btn btn-primary">{{ t('admin/bans', 'FORM_SAVE_BUTTON') }}</button>
         </div>
     </div>
     {{ active_form_end() }}

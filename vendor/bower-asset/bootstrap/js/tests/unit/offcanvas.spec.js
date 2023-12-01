@@ -1,8 +1,8 @@
-import EventHandler from '../../src/dom/event-handler.js'
-import Offcanvas from '../../src/offcanvas.js'
-import { isVisible } from '../../src/util/index.js'
-import ScrollBarHelper from '../../src/util/scrollbar.js'
-import { clearBodyAndDocument, clearFixture, createEvent, getFixture, jQueryMock } from '../helpers/fixture.js'
+import Offcanvas from '../../src/offcanvas'
+import EventHandler from '../../src/dom/event-handler'
+import { clearBodyAndDocument, clearFixture, createEvent, getFixture, jQueryMock } from '../helpers/fixture'
+import { isVisible } from '../../src/util/index'
+import ScrollBarHelper from '../../src/util/scrollbar'
 
 describe('Offcanvas', () => {
   let fixtureEl

@@ -59,7 +59,7 @@ class File extends \yii\db\ActiveRecord
             'email' => Yii::t('files', 'ATTRIBUTE_EMAIL'),
             'addr' => Yii::t('files', 'ATTRIBUTE_ADDR'),
             'date' => Yii::t('files', 'ATTRIBUTE_DATE'),
-            'moderated' => Yii::t('comments', 'ATTRIBUTE_MODERATED'),
+            'moderated' => Yii::t('files', 'ATTRIBUTE_MODERATED'),
         ];
     }
         /**

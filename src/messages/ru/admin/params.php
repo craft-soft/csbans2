@@ -1,0 +1,60 @@
+<?php
+/*
+ * Copyright (c) 2017,2022-2023 Alex Urich <urichalex@mail.ru>
+ * License: GNU LGPL 2 only, see file LICENSE
+ */
+return [
+    'BREADCRUMBS_INDEX' => 'Настройки',
+    'PAGE_TITLE_INDEX' => 'Настройки',
+    'PARAMS_NOT_SAVED' => 'Ошибка сохранения',
+    'PARAMS_SAVED' => 'Параметр сохранен',
+    'VALIDATE_WRONG_DROPDOWN_VALUE' => 'Неверное значение',
+    'INDEX_TITLE' => 'Настройки системы',
+
+    'MAIN_SITE_NAME' => 'Название сайта',
+    'MAIN_SITE_BASE_URL' => 'Базовый URL сайта',
+    'MAIN_SITE_LANGUAGE' => 'Язык сайта',
+    'SITE_THEME' => 'Тема',
+    'START_PAGE' => 'Главная страница',
+    'VIEW_FOOTER_LEFT' => 'Текст в футере слева',
+    'VIEW_FOOTER_RIGHT' => 'Текст в футере справа',
+    'VIEW_MAIN_BANNER' => 'Баннер на главной странице',
+    'DEMO_UPLOAD_ENABLED' => 'Разрешить загрузку демо',
+    'DEMO_FILE_TYPES' => 'Разрешенные типы файлов демо (через запятую)',
+    'BANS_PER_PAGE' => 'Банов на страницу',
+    'SITE_BAN_PERIOD' => 'Время бана с сайта',
+    'SITE_BAN_REASON' => 'Причина бана с сайта',
+    'MAX_OFFENCES' => 'Максимальное количество банов',
+    'MAX_OFFENCES_REASON' => 'Причина за максимальное количество банов',
+    'HIDE_OLD_BANS' => 'Скрывать истекшие баны',
+    'COMMENTS_ENABLED' => 'Разрешить комментарии',
+    'BANS_VIEW_COMMENTS_COUNT' => 'Отображать количество комментариев',
+    'BANS_VIEW_FILES_COUNT' => 'Отображать количество файлов',
+    'BANS_VIEW_KICKS_COUNT' => 'Отображать количество киков',
+    'IP_DATA_PROVIDER' => 'Провайдер данных IP адресов',
+    'IP_VIEW_PROVIDER_CRED' => 'Отображать информацию о провайдере данных IP адресов',
+    'SERVER_QUERY_PROVIDER' => 'Провайдер данных с серверов',
+    'EXTERNAL_YANDEX_MAPS_LABEL' => 'Yandex карты',
+    'EXTERNAL_YANDEX_MAPS_ENABLED' => 'Использовать Yandex карты',
+    'EXTERNAL_YANDEX_API_KEY' => 'API Key Yandex карт',
+    'EXTERNAL_YANDEX_API_KEY_DESCRIPTION' => 'Yandex требует использовать ключ API. Подробнее - https://help.flexbe.ru/api-yandex-maps/',
+    'SERVERS_DATA_INTERVAL' => 'Интервал опроса серверов',
+    'SERVERS_DATA_INTERVAL_DESCRIPTION' => 'Время в секундах через которое будут опрашиваться сервера',
+    'VIEW_MAIN_PAGE_BANNER' => 'Отображать банер главной страницы',
+    'VIEW_INDEX_PAGE_TOP' => 'HTML код банера главной страницы',
+    'BANS_MODERATE_COMMENTS' => 'Предмодерация комментариев',
+    'BANS_MODERATE_FILES' => 'Предмодерация файлов',
+
+    'VALUE_NONE' => 'Нет',
+    'VALUE_ALL' => 'Все',
+    'VALUE_USERS' => 'Пользователи',
+
+    'BLOCK_MAIN' => 'Основное',
+    'BLOCK_VIEW' => 'Отображение',
+    'BLOCK_FILES' => 'Файлы',
+    'BLOCK_BANS' => 'Баны',
+    'BLOCK_SERVER' => 'Серверы',
+    'BLOCK_EXTERNAL' => 'Внешние сервисы',
+
+    'FORM_SAVE_BUTTON' => 'Сохранить',
+];

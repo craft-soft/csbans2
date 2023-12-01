@@ -149,17 +149,21 @@ class AppParams implements BootstrapInterface
         }
     }
 
+    private ?bool $isInstalled = null;
     public function isInstalled(): bool
     {
-        try {
-            if (!$this->app->getDb()) {
-                return false;
+        if ($this->isInstalled === null) {
+            try {
+                if (!$this->app->getDb()) {
+                    return false;
+                }
+                $this->app->getDb()->open();
+                $this->isInstalled = $this->app->getDb()->getIsActive() && $this->app->getDb()->getTableSchema($this->modelClass::tableName(), true);
+            } catch (\Throwable $exception) {
+                $this->isInstalled = false;
             }
-            $this->app->getDb()->open();
-            return $this->app->getDb()->getIsActive() && $this->app->getDb()->getTableSchema($this->modelClass::tableName(), true);
-        } catch (\Throwable $exception) {
-            return false;
         }
+        return $this->isInstalled;
     }
 
     /**

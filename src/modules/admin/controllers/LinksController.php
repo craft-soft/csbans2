@@ -88,7 +88,7 @@ class LinksController extends Controller
         $this->getView()->title = Yii::t('admin/links', 'PAGE_TITLE_CREATE');
         $this->getView()->params['breadcrumbs'] = [
             [
-                'label' => Yii::t('admin/links', 'BREADCRUMBS_INDEX'),
+                'label' => Yii::t('admin/links', 'BREADCRUMBS_CREATE'),
                 'url' => ['index']
             ],
             $this->getView()->title,

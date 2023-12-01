@@ -208,6 +208,6 @@ class ReasonsController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('admin/reasons', 'The requested page does not exist.'));
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

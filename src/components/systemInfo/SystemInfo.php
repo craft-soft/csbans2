@@ -103,7 +103,7 @@ class SystemInfo
                     $mysqlVersion,
                     version_compare($mysqlVersion, '5.7', '<'),
                     true,
-                    Yii::t('app', 'SYSTEM_VERSION_NOT_SUPPORTED', ['version' => '5.7'])
+                    Yii::t('app', 'SYSTEM_VERSION_NOT_SUPPORTED', ['version' => $mysqlVersion])
                 )
             );
             $variables->addItem(

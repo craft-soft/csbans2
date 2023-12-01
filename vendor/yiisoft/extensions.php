@@ -31,15 +31,6 @@ return array (
       '@himiklab/yii2/recaptcha/tests' => $vendorDir . '/himiklab/yii2-recaptcha-widget/tests',
     ),
   ),
-  'kartik-v/yii2-widget-activeform' => 
-  array (
-    'name' => 'kartik-v/yii2-widget-activeform',
-    'version' => 'dev-master',
-    'alias' => 
-    array (
-      '@kartik/form' => $vendorDir . '/kartik-v/yii2-widget-activeform/src',
-    ),
-  ),
   'kartik-v/yii2-krajee-base' => 
   array (
     'name' => 'kartik-v/yii2-krajee-base',
@@ -47,6 +38,15 @@ return array (
     'alias' => 
     array (
       '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base/src',
+    ),
+  ),
+  'kartik-v/yii2-widget-activeform' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-activeform',
+    'version' => 'dev-master',
+    'alias' => 
+    array (
+      '@kartik/form' => $vendorDir . '/kartik-v/yii2-widget-activeform/src',
     ),
   ),
   'kartik-v/yii2-widget-datepicker' => 
@@ -122,15 +122,6 @@ return array (
       '@wbraganca/dynamicform' => $vendorDir . '/wbraganca/yii2-dynamicform/src',
     ),
   ),
-  'yiisoft/yii2-symfonymailer' => 
-  array (
-    'name' => 'yiisoft/yii2-symfonymailer',
-    'version' => '2.0.4.0',
-    'alias' => 
-    array (
-      '@yii/symfonymailer' => $vendorDir . '/yiisoft/yii2-symfonymailer/src',
-    ),
-  ),
   'yiisoft/yii2-bootstrap5' => 
   array (
     'name' => 'yiisoft/yii2-bootstrap5',
@@ -140,6 +131,15 @@ return array (
       '@yii/bootstrap5' => $vendorDir . '/yiisoft/yii2-bootstrap5/src',
     ),
     'bootstrap' => 'yii\\bootstrap5\\i18n\\TranslationBootstrap',
+  ),
+  'yiisoft/yii2-symfonymailer' => 
+  array (
+    'name' => 'yiisoft/yii2-symfonymailer',
+    'version' => '2.0.4.0',
+    'alias' => 
+    array (
+      '@yii/symfonymailer' => $vendorDir . '/yiisoft/yii2-symfonymailer/src',
+    ),
   ),
   'yiisoft/yii2-twig' => 
   array (

@@ -9,7 +9,6 @@ License: GNU LGPL 2 only, see file LICENSE
     }) %}
         {{ form.field(model, 'label') | raw }}
         {{ form.field(model, 'url') | raw }}
-        {{ form.field(model, 'roles').checkboxList(model.getRolesForForm()) | raw }}
         <button type="submit" class="btn btn-primary">{{ t('admin/links', 'FORM_SAVE_BUTTON') }}</button>
     {{ active_form_end() }}
 </div>

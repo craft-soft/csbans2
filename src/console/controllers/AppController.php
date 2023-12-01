@@ -6,13 +6,31 @@
 
 namespace app\console\controllers;
 
+use app\components\params\AppParams;
 use app\models\Webadmin;
+use yii\helpers\ArrayHelper;
+use yii\helpers\StringHelper;
+use yii\helpers\VarDumper;
 use yii\rbac\ManagerInterface;
 use yii\console\{Controller, ExitCode};
 use app\rbac\{Permissions, RbacService};
 
 class AppController extends Controller
 {
+    public function actionParams()
+    {
+        $reflection = new \ReflectionClass(Permissions::class);
+        $params = [];
+        foreach ($reflection->getConstants() as $constant => $value) {
+            if (str_starts_with($constant, 'PERMISSION_')) {
+                $params[$constant] = '';
+            }
+        }
+        $a2s = VarDumper::export($params);
+        $str = '<?php' . PHP_EOL . "return $a2s;\n";
+        file_put_contents(\Yii::getAlias('@runtime/params.php'), $str);
+    }
+
     /**
      * Добавление администратора
      * @param ManagerInterface $authManager

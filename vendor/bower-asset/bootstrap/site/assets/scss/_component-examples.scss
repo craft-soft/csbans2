@@ -2,16 +2,12 @@
 // Docs examples
 //
 
-.bd-code-snippet {
-  margin: 0 ($bd-gutter-x * -.5) 1rem;
-  border: solid var(--bs-border-color);
+.bd-example-snippet {
+  border: solid $border-color;
   border-width: 1px 0;
 
   @include media-breakpoint-up(md) {
-    margin-right: 0;
-    margin-left: 0;
     border-width: 1px;
-    @include border-radius(var(--bs-border-radius));
   }
 }
 
@@ -20,8 +16,8 @@
 
   position: relative;
   padding: var(--bd-example-padding);
-  margin: 0 ($bd-gutter-x * -.5) 1rem;
-  border: solid var(--bs-border-color);
+  margin: 0 ($bd-gutter-x * -.5);
+  border: solid $border-color;
   border-width: 1px 0;
   @include clearfix();
 
@@ -31,7 +27,13 @@
     margin-right: 0;
     margin-left: 0;
     border-width: 1px;
-    @include border-radius(var(--bs-border-radius));
+    @include border-top-radius(var(--bs-border-radius));
+  }
+
+  + .bd-code-snippet {
+    @include border-top-radius(0);
+    border: solid $border-color;
+    border-width: 0 1px 1px;
   }
 
   + p {
@@ -56,8 +58,7 @@
     display: block;
   }
 
-  > :last-child,
-  > nav:last-child .breadcrumb {
+  > :last-child {
     margin-bottom: 0;
   }
 
@@ -114,12 +115,11 @@
 //
 
 .bd-example-row [class^="col"],
-.bd-example-cols [class^="col"] > *,
-.bd-example-cssgrid [class*="grid"] > * {
+.bd-example-cssgrid .grid > * {
   padding-top: .75rem;
   padding-bottom: .75rem;
-  background-color: rgba(var(--bd-violet-rgb), .15);
-  border: 1px solid rgba(var(--bd-violet-rgb), .3);
+  background-color: rgba(var(--bd-violet-rgb), .1);
+  border: 1px solid rgba(var(--bd-violet-rgb), .25);
 }
 
 .bd-example-row .row + .row,
@@ -129,12 +129,12 @@
 
 .bd-example-row-flex-cols .row {
   min-height: 10rem;
-  background-color: rgba(var(--bd-violet-rgb), .15);
+  background-color: rgba(255, 0, 0, .1);
 }
 
-.bd-example-flex div:not(.vr) {
-  background-color: rgba(var(--bd-violet-rgb), .15);
-  border: 1px solid rgba(var(--bd-violet-rgb), .3);
+.bd-example-flex div {
+  background-color: rgba($bd-purple, .15);
+  border: 1px solid rgba($bd-purple, .15);
 }
 
 // Grid mixins
@@ -176,9 +176,9 @@
   .ratio {
     display: inline-block;
     width: 10rem;
-    color: var(--bs-secondary-color);
-    background-color: var(--bs-tertiary-bg);
-    border: var(--bs-border-width) solid var(--bs-border-color);
+    color: $gray-600;
+    background-color: $gray-100;
+    border: var(--#{$prefix}border-width) solid var(--#{$prefix}border-color);
 
     > div {
       display: flex;
@@ -208,28 +208,21 @@
 }
 
 // Tooltips
-.tooltip-demo {
-  a {
-    white-space: nowrap;
-  }
-
-  .btn {
-    margin: .25rem .125rem;
-  }
+.tooltip-demo a {
+  white-space: nowrap;
 }
 
 // scss-docs-start custom-tooltip
 .custom-tooltip {
-  --bs-tooltip-bg: var(--bd-violet-bg);
-  --bs-tooltip-color: var(--bs-white);
+  --bs-tooltip-bg: var(--bs-primary);
 }
 // scss-docs-end custom-tooltip
 
 // scss-docs-start custom-popovers
 .custom-popover {
   --bs-popover-max-width: 200px;
-  --bs-popover-border-color: var(--bd-violet-bg);
-  --bs-popover-header-bg: var(--bd-violet-bg);
+  --bs-popover-border-color: var(--bs-primary);
+  --bs-popover-header-bg: var(--bs-primary);
   --bs-popover-header-color: var(--bs-white);
   --bs-popover-body-padding-x: 1rem;
   --bs-popover-body-padding-y: .5rem;
@@ -260,7 +253,7 @@
     width: 5rem;
     height: 5rem;
     margin: .25rem;
-    background-color: var(--bs-tertiary-bg);
+    background-color: #f5f5f5;
   }
 }
 
@@ -276,13 +269,13 @@
 
   .position-relative {
     height: 200px;
-    background-color: var(--bs-tertiary-bg);
+    background-color: #f5f5f5;
   }
 
   .position-absolute {
     width: 2rem;
     height: 2rem;
-    background-color: var(--bs-body-color);
+    background-color: $dark;
     @include border-radius();
   }
 }
@@ -309,39 +302,6 @@
   min-height: 240px;
 }
 
-.bd-example-zindex-levels {
-  min-height: 15rem;
-
-  > div {
-    color: var(--bs-body-bg);
-    background-color: var(--bd-violet);
-    border: 1px solid var(--bd-purple);
-
-    > span {
-      position: absolute;
-      right: 5px;
-      bottom: 0;
-    }
-  }
-
-  > :nth-child(2) {
-    top: 3rem;
-    left: 3rem;
-  }
-  > :nth-child(3) {
-    top: 4.5rem;
-    left: 4.5rem;
-  }
-  > :nth-child(4) {
-    top: 6rem;
-    left: 6rem;
-  }
-  > :nth-child(5) {
-    top: 7.5rem;
-    left: 7.5rem;
-  }
-}
-
 //
 // Code snippets
 //
@@ -349,24 +309,19 @@
 .highlight {
   position: relative;
   padding: .75rem ($bd-gutter-x * .5);
-  background-color: var(--bd-pre-bg);
+  margin-bottom: 1rem;
+  background-color: var(--bs-gray-100);
 
   @include media-breakpoint-up(md) {
     padding: .75rem 1.25rem;
-    @include border-radius(calc(var(--bs-border-radius) - 1px));
-  }
-
-  @include media-breakpoint-up(lg) {
-    pre {
-      margin-right: 1.875rem;
-    }
+    @include border-radius(var(--bs-border-radius));
   }
 
   pre {
-    padding: .25rem 0 .875rem;
-    margin-top: .8125rem;
-    margin-bottom: 0;
-    overflow: overlay;
+    padding: 0;
+    margin-top: .625rem;
+    margin-right: 1.875rem;
+    margin-bottom: .625rem;
     white-space: pre;
     background-color: transparent;
     border: 0;
@@ -374,27 +329,31 @@
 
   pre code {
     @include font-size(inherit);
-    color: var(--bs-body-color); // Effectively the base text color
+    color: $gray-900; // Effectively the base text color
     word-wrap: normal;
   }
 }
 
+.bd-code-snippet {
+  margin: 0 ($bd-gutter-x * -.5) $spacer;
+
+  .highlight {
+    margin-bottom: 0;
+  }
+
+  .bd-example {
+    margin: 0;
+    border: 0;
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-right: 0;
+    margin-left: 0;
+    @include border-radius($border-radius);
+  }
+}
+
 .highlight-toolbar {
-  background-color: var(--bd-pre-bg);
-
-  + .highlight {
-    @include border-top-radius(0);
-  }
-}
-
-.bd-file-ref {
-  .highlight-toolbar {
-    @include media-breakpoint-up(md) {
-      @include border-top-radius(calc(var(--bs-border-radius) - 1px));
-    }
-  }
-}
-
-.bd-content .bd-code-snippet {
-  margin-bottom: 1rem;
+  border: solid $border-color;
+  border-width: 1px 0;
 }

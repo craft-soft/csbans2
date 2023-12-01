@@ -87,6 +87,10 @@ class CommentsController extends Controller
 
         $this->getView()->title = Yii::t('admin/comments', 'PAGE_TITLE_MODERATE');
         $this->getView()->params['breadcrumbs'] = [
+            [
+                'url' => ['index'],
+                'label' => Yii::t('admin/comments', 'BREADCRUMBS_INDEX')
+            ],
             Yii::t('admin/comments', 'BREADCRUMBS_MODERATE'),
         ];
 
